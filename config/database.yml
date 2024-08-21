@@ -1,0 +1,29 @@
+# SQLite. Versions 3.8.0 and up are supported.
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem "sqlite3"
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+  username: postgres
+  password: admin123
+
+development:
+  <<: *default
+  database: play_lync_development
+
+staging:
+  <<: *default
+  databae: play_lync_staging
+
+test:
+  <<: *default
+  database: play_lync_test
+
+production:
+  <<: *default
+  database: play_lync_production
