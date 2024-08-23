@@ -12,13 +12,14 @@ Rails.application.routes.draw do
           post :forgot_password
           post :otp_verification
           post :reset_password
-          put :change_password
           post :resend_otp
         end
       end
       
       post '/auth/signup', to: 'registrations#create'
       post '/auth/login', to: 'sessions#login'
+      put '/auth/logout', to: 'sessions#logout'
+      post '/auth/social_login', to: 'social_logins#social_login'
     end
   end
 end

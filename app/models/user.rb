@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.(?:com|net|org)\z/i}
-  validates :phone_number, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates :phone_number, uniqueness: true, if: :phone_number
   
   after_create :generate_otp
   

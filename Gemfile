@@ -69,6 +69,11 @@ group :development do
   # gem "spring"
 end
 
+# serializer gem
+gem 'active_model_serializers'
+# Cross origin request
+gem 'rack-cors'
+
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
