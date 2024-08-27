@@ -25,14 +25,22 @@ class Api::V1::SessionsController < Api::ApiController
 
   def authentication
     if @user&.valid_password?(params[:password])
-      token = JsonWebToken.encode(user_id: @user.id)
-      user_json = UserSerializer.new(@user).as_json
-      success_response('User logged in successfully', user_json.merge({ token: token }), status = :ok)
+      if !@user.phone_verified && !@user.email_verified
+        error_response("Please verify both your phone number and email before login", :unprocessable_entity)
+      elsif !@user.phone_verified
+        error_response("Please verify your phone number before login", :unprocessable_entity)
+      elsif !@user.email_verified
+        error_response("Please verify your email before login", :unprocessable_entity)
+      else
+        token = JsonWebToken.encode(user_id: @user.id)
+        user_json = UserSerializer.new(@user).as_json
+        success_response('User logged in successfully', user_json.merge({ token: token }), :ok)
+      end
     else
       render json: { message: 'Please enter a valid password', prevent_token_expiry: true }, status: :unauthorized
     end
   rescue StandardError => e
-    error_response("An error occurred during authentication #{e}", :internal_server_error)
+    error_response("An error occurred during authentication: #{e.message}", :internal_server_error)
   end
 
   def find_user

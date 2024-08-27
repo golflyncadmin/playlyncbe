@@ -6,11 +6,15 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       ## Database authenticatable
       t.string    :email,              null: false, default: ""
       t.string    :encrypted_password, null: false, default: ""
-      t.string    :full_name
+      t.string    :first_name
+      t.string    :last_name
       t.string    :phone_number 
-      t.boolean   :verified,          null: false, default: false
-      t.string    :otp
-      t.datetime  :otp_expiry
+      t.string    :phone_otp
+      t.datetime  :phone_otp_expiry
+      t.string    :email_otp
+      t.datetime  :email_otp_expiry
+      t.boolean   :phone_verified,          null: false, default: false
+      t.boolean   :email_verified,          null: false, default: false
 
       ## Recoverable
       t.string   :reset_password_token
@@ -42,6 +46,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
     end
 
     add_index :users, :email,                unique: true
+    add_index :users, :phone_number,         unique: true
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
