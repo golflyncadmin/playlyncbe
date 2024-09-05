@@ -60,7 +60,7 @@ class SocialLoginsService
   def create_user(response)
     user = User.find_or_initialize_by(email: response['email'])
     user.assign_attributes(
-      full_name: response['name'],
+      first_name: response['name'],
       password: PASSWORD_DIGEST,
       password_confirmation: PASSWORD_DIGEST
     )
