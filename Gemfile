@@ -73,6 +73,16 @@ end
 gem 'active_model_serializers'
 # Cross origin request
 gem 'rack-cors'
+# ENV keys
+gem "dotenv-rails"
+# send messages
+gem 'aws-sdk-sns'
+# find lat and long
+gem 'geocoder'
+# mailer gem
+gem 'klaviyo-api-sdk'
+# send request
+gem 'httparty'
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]

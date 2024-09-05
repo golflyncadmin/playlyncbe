@@ -44,12 +44,13 @@ class Api::V1::RegistrationsController < Api::ApiController
 
   def forgot_password
     if @user
+      otp_service = OtpService.new(@user)
       if params[:phone_number].present?
         @user.update(phone_verified: false)
-        @user.generate_phone_otp
+        otp_service.send_phone_otp
       elsif params[:email].present?
         @user.update(email_verified: false)
-        @user.generate_email_otp
+        otp_service.send_email_otp
       else
         return error_response('Please provide a phone number or email to send OTP', :unprocessable_entity)
       end
@@ -65,22 +66,23 @@ class Api::V1::RegistrationsController < Api::ApiController
       return error_response("New password can't be the old password", :unprocessable_entity)
     end
 
-    if @user && @user.verified && params[:new_password].present?
+    if @user && params[:new_password].present?
       @user.update(password: params[:new_password], password_confirmation: params[:password_confirmation])
-      success_response('New password set successfully! You can now log in with the new password!',UserSerializer.new(@user))
+      success_response('New password set successfully! You can now log in with the new password!', UserSerializer.new(@user))
     else
-      error_response('User is not verified or new password is not present!', :unprocessable_entity)
+      error_response('User not found or new password is not present!', :unprocessable_entity)
     end
   end
 
   def resend_otp
     if @user
+      otp_service = OtpService.new(@user)
       if params[:phone_number].present?
         @user.update(phone_verified: false)
-        @user.generate_phone_otp
+        otp_service.send_phone_otp
       elsif params[:email].present?
         @user.update(email_verified: false)
-        @user.generate_email_otp
+        otp_service.send_email_otp
       else
         return error_response('Please provide a phone number or email to send OTP', :unprocessable_entity)
       end

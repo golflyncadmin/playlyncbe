@@ -8,21 +8,13 @@ class User < ApplicationRecord
   validates :phone_number, uniqueness: true, if: :phone_number
   
   after_create :generate_otps
+
+  has_many :requests, dependent: :destroy
+  has_many :tee_times, dependent: :destroy
   
   def generate_otps
-    generate_phone_otp if phone_number.present?
-    generate_email_otp if email.present?
-  end
-
-  def generate_phone_otp
-    self.phone_otp = SecureRandom.random_number(100000..999999).to_s
-    self.phone_otp_expiry = 5.minutes.from_now
-    save
-  end
-
-  def generate_email_otp
-    self.email_otp = SecureRandom.random_number(100000..999999).to_s
-    self.email_otp_expiry = 5.minutes.from_now
-    save
+    otp_service = OtpService.new(self)
+    otp_service.send_phone_otp if phone_number.present?
+    otp_service.send_email_otp if email.present?
   end
 end

@@ -1,6 +1,8 @@
 class Api::ApiController < ApplicationController
   # protect_from_forgery with: :null_session
   include Response
+
+  attr_reader :current_user
   
   def authorize_request
     header = request.headers['Authorization']
