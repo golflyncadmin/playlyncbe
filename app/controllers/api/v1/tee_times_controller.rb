@@ -8,18 +8,53 @@ class Api::V1::TeeTimesController < Api::ApiController
 
   def alerts
     today = Date.today
-    @alerts = current_user.tee_times.select do |tee_time|
-      tee_time.course_date.present? && Date.strptime(tee_time.course_date, '%m/%d/%Y') == today
-    end
+    tee_times_today = current_user.tee_times.where(course_date: today.strftime('%m/%d/%Y'))
 
-    if @alerts.any?
-      success_response("Tee times for today", @alerts, :ok)
+    if tee_times_today.any?
+      grouped_by_course = tee_times_today.group_by(&:course_name)
+
+      response_data = grouped_by_course.map do |course_name, tee_times|
+        grouped_tee_times = {
+          morning_tee_times:   group_tee_times(tee_times, 7..10),
+          afternoon_tee_times: group_tee_times(tee_times, 11..14),
+          evening_tee_times:   group_tee_times(tee_times, 15..19)
+        }
+
+        {
+          course_name: course_name,
+          course_date: tee_times.first.course_date,
+          tee_times: grouped_tee_times
+        }
+      end
+
+      success_response("Tee times for today", response_data, :ok)
     else
       success_response("No tee times for today", [], :not_found)
     end
   end
 
   private
+
+  def group_tee_times(tee_times, hour_range)
+    tee_times.select do |tee_time|
+      tee_time_time = Time.strptime(tee_time.start_time, '%I:%M %p').hour
+      hour_range.include?(tee_time_time)
+    end.map do |tee_time|
+      {
+        start_time:  tee_time.start_time,
+        course_date: format_date(tee_time.course_date),
+        min_price:   tee_time.min_price,
+        max_price:   tee_time.max_price,
+        max_players: tee_time.max_players,
+        address:     tee_time.address,
+        booking_url: tee_time.booking_url
+      }
+    end
+  end
+
+  def format_date(date_str)
+    Date.strptime(date_str, '%m/%d/%Y').strftime('%-m-%d-%y')
+  end
 
   def tee_time_params
     params.require(:tee_time).permit(:course_name, :start_time, :min_price, :max_price, :address, :course_date, :max_players)
