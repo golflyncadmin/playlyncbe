@@ -29,7 +29,7 @@ class Api::V1::TeeTimesController < Api::ApiController
 
       success_response("Tee times for today", response_data, :ok)
     else
-      success_response("No tee times for today", [], :not_found)
+      success_response("No tee times for today", [], :ok)
     end
   end
 
