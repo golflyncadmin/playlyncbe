@@ -20,9 +20,13 @@ class Api::V1::TeeTimesController < Api::ApiController
           evening_tee_times:   group_tee_times(tee_times, 15..19)
         }
 
+        first_booking_url = tee_times.first.booking_url
+        common_url = extract_common_url(first_booking_url)
+
         {
           course_name: course_name,
           course_date: tee_times.first.course_date,
+          common_url: common_url,
           tee_times: grouped_tee_times
         }
       end
@@ -54,6 +58,10 @@ class Api::V1::TeeTimesController < Api::ApiController
 
   def format_date(date_str)
     Date.strptime(date_str, '%m/%d/%Y').strftime('%-m-%d-%y')
+  end
+
+  def extract_common_url(booking_url)
+    booking_url.match(/(https:\/\/www\.golfnow\.com\/\/tee-times\/facility\/\d+\/tee-time)/)[0]
   end
 
   def tee_time_params

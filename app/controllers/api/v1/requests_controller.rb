@@ -4,6 +4,13 @@ class Api::V1::RequestsController < Api::ApiController
 
 
   def create
+
+    if current_user.requests.exists?(start_date: request_params[:start_date], end_date: request_params[:end_date],
+                                     time: request_params[:time], location: request_params[:location],
+                                     players: request_params[:players])
+
+      return error_response('Request already exists with these parameters', :unprocessable_entity)
+    end
     @request = current_user.requests.new(request_params)
     @request.geocode
 
@@ -15,7 +22,8 @@ class Api::V1::RequestsController < Api::ApiController
     if response[:records].present? && response[:success]
       if @request.save
         response[:records].each do |record|
-          tee_time = current_user.tee_times.new(tee_time_params(record))
+          tee_time = @request.tee_times.new(tee_time_params(record))
+          tee_time.user_id = current_user.id
           unless tee_time.save
             Rails.logger.error "Failed to save tee time: #{tee_time.errors.full_messages.join(', ')}"
           end

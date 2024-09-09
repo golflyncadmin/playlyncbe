@@ -1,5 +1,6 @@
 class Request < ApplicationRecord
   belongs_to :user
+  has_many :tee_times, dependent: :destroy
   
   geocoded_by :location
   after_validation :geocode, if: :location_changed?
