@@ -9,6 +9,7 @@ class User < ApplicationRecord
   
   after_create :generate_otps
 
+  has_many :courses, dependent: :destroy
   has_many :requests, dependent: :destroy
   has_many :tee_times, dependent: :destroy
   
