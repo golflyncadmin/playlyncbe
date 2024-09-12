@@ -20,10 +20,13 @@ Rails.application.routes.draw do
       post '/auth/login', to: 'sessions#login'
       put '/auth/logout', to: 'sessions#logout'
       post '/auth/social_login', to: 'social_logins#social_login'
-
-      resources :requests, only: [:create, :index, :destroy]
-      resources :tee_times, only: [:index]
       get 'alerts', to: 'tee_times#alerts'
+
+      resources :issues, only: [:create]
+      resources :tee_times, only: [:index]
+      resources :courses, only: [:index, :create]
+      resources :profiles, only: [:show, :update, :destroy]
+      resources :requests, only: [:create, :index, :destroy]
     end
   end
 end
