@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  root to: proc { [200, {}, ['Welcome to Playlync API!']] }
 
   namespace :api, constraints: { format: 'json' } do
     namespace :v1 do
