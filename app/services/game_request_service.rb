@@ -11,12 +11,12 @@ class GameRequestService
     
     return result if dates_invalid?(start_date, end_date)
 
+    course_id = geolookup_request(request)
+    puts "course id: #{course_id}"
+    time_range = get_time_range(Array(request.time))
+
     (start_date..end_date).each do |current_date|
       @departure_date = format_date(current_date)
-      time_range = get_time_range(Array(request.time))
-      puts "time range is: #{time_range}"
-      course_id = geolookup_request(request)
-      puts "course id: #{course_id}"
       response = get_course_tee_times(request, course_id, time_range)
       puts "request done for #{current_date}"
       
@@ -57,6 +57,7 @@ class GameRequestService
 
   def get_course_tee_times(data, course_id, time_range)
     uri = URI.parse("https://www.golfnow.com/api/tee-times/tee-time-results")
+    random_port = rand(10000..10004)
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json; charset=UTF-8"
     request.body = build_request_body(data, course_id, time_range)
@@ -64,7 +65,7 @@ class GameRequestService
 
     req_options = { use_ssl: uri.scheme == "https" }
 
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+    response = Net::HTTP.start(uri.hostname, uri.port, ENV['PROXYRACK_HOST'], random_port, ENV['PROXYRACK_USERNAME'], ENV['PROXYRACK_PASSWORD'], req_options) do |http|
       http.request(request)
     end
     JSON.parse(response.body)
