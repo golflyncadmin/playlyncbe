@@ -10,7 +10,7 @@ class OtpService
   def send_phone_otp
     otp = generate_otp
     @user.update(phone_otp: otp, phone_otp_expiry: 2.minutes.from_now)
-    # send_sms(@user.phone_number, otp)
+    send_sms(@user.phone_number, otp)
   end
 
   def send_email_otp
@@ -22,13 +22,14 @@ class OtpService
   private
 
   def generate_otp
-    '000000'
+    rand(100000..999999).to_s
   end
 
   def send_sms(phone_number, otp)
     sns = Aws::SNS::Client.new(region: ENV['AWS_REGION'], access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
     message = "Your PlayLync OTP is #{otp}"
     sns.publish(phone_number: phone_number, message: message)
+    Rails.logger.info "Mobile otp sent successfully"
   rescue Aws::SNS::Errors::ServiceError => e
     Rails.logger.error "Failed to send SMS OTP: #{e.message}"
   end
@@ -56,7 +57,7 @@ class OtpService
     })
 
     if response.success?
-      Rails.logger.info "Email sent successfully"
+      Rails.logger.info "Email Otp sent successfully"
     else
       { error: response['error'] }
     end
