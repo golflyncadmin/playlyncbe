@@ -3,6 +3,7 @@ class Api::V1::SessionsController < Api::ApiController
 
   def login
     if @user
+      @user.mobile_devices.find_or_create_by(mobile_token: params[:fcm_token])
       authentication
     else
       error_response('User not found', :not_found)

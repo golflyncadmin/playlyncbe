@@ -83,6 +83,10 @@ gem 'geocoder'
 gem 'klaviyo-api-sdk'
 # send request
 gem 'httparty'
+# push notifications
+gem 'fcm'
+# schedule job
+gem 'whenever', require: false
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
