@@ -9,9 +9,11 @@ class User < ApplicationRecord
   
   after_create :generate_otps
 
-  has_many :courses, dependent: :destroy
-  has_many :requests, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :mobile_devices, dependent: :destroy
   has_many :tee_times, dependent: :destroy
+  has_many :requests, dependent: :destroy
+  has_many :courses, dependent: :destroy
   
   def generate_otps
     otp_service = OtpService.new(self)
