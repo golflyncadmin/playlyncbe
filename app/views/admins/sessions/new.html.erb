@@ -1,0 +1,38 @@
+
+<div class="flex min-h-screen">
+
+<div class="w-full justify-center p-6 md:p-0 my-auto">
+<div class="max-w-[360px] w-full md:mx-auto">
+
+<h1 class="text-6xl font-semibold text-black text-center mb-6 bg-black">Welcome Back</h1>
+
+
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="field">
+    <%= f.label :email , class: "text-xs font-normal text-secondary" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" , class: "border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password , class: "text-xs font-normal text-secondary" %><br />
+    <%= f.password_field :password, autocomplete: "current-password" , class: "border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3" %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="field">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Log in", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+<% end %>
+
+  </div>
+  </div>
+  </div>
+
+<%= render "admins/shared/links" %>

@@ -11,7 +11,7 @@ class GameRequestService
     
     return result if dates_invalid?(start_date, end_date)
 
-    course_id = geolookup_request(request)
+    course_id = params[:course_id]
     puts "course id: #{course_id}"
     time_range = get_time_range(Array(request.time))
 
@@ -31,17 +31,15 @@ class GameRequestService
     result
   end
 
-  def geolookup_request(data)
+  def geolookup_request(search)
     uri = URI.parse("https://www.golfnow.com/api/autocomplete/geolookup")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json; charset=UTF-8"
     set_headers(request)
     request.body = JSON.dump({
-      "searchkey" => data.location,
+      "searchkey" => search,
       "take" => 20,
       "skip" => 0,
-      "lat" => data.latitude,
-      "lng" => data.longitude
     })
 
     req_options = {
@@ -51,8 +49,6 @@ class GameRequestService
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
-    json = JSON.parse(response.body)
-    json["hits"][0]["contextInformation"]["courseId"]
   end
 
   def get_course_tee_times(data, course_id, time_range)
@@ -98,8 +94,6 @@ class GameRequestService
   def build_request_body(request, course_id, time_range)
     JSON.dump({
     "Radius" => 25,
-    "Latitude" => request.latitude,
-    "Longitude" => request.longitude,
     "PageSize" => 60,
     "PageNumber" => 0,
     "SearchType" => 1,

@@ -4,7 +4,6 @@ class Api::V1::RequestsController < Api::ApiController
 
 
   def create
-
     if current_user.requests.exists?(start_date: request_params[:start_date], end_date: request_params[:end_date],
                                      time: request_params[:time], location: request_params[:location],
                                      players: request_params[:players])
@@ -12,11 +11,6 @@ class Api::V1::RequestsController < Api::ApiController
       return error_response('Request already exists with these parameters', :unprocessable_entity)
     end
     @request = current_user.requests.new(request_params)
-    @request.geocode
-
-    unless @request.valid_location?
-      return error_response('Location not found!', :unprocessable_entity)
-    end
     
     response = GameRequestService.new.call(@request, params)
     if response[:records].present? && response[:success]
@@ -51,6 +45,31 @@ class Api::V1::RequestsController < Api::ApiController
     end
   end
 
+  def search
+    response = get_suggestions(params[:search])
+    if response
+      json = parse_json(response.body)
+      locations = get_locations(json)
+      courses = get_courses(json)
+
+      success_response("search results", course_suggestions: courses, location_suggestions: locations)
+    else
+      error_response("No result found", :unprocessable_entity)
+    end
+  end
+
+  def location_courses
+    response = get_suggestions(params[:location])
+    if response
+      json = parse_json(response.body)
+      courses = get_courses(json)
+
+      success_response("search results", course_suggestions: courses)
+    else
+      error_response("No result found", :unprocessable_entity)
+    end
+  end
+
   private
 
   def set_request
@@ -72,5 +91,26 @@ class Api::V1::RequestsController < Api::ApiController
       max_players:   record[:max_players],
       address:       record[:address]
     }
+  end
+
+  def get_suggestions(query)
+    response = GameRequestService.new.geolookup_request(query)
+    response.code == "200" ? response : nil
+  end
+
+  def parse_json(response_body)
+    JSON.parse(response_body)
+  end
+
+  def get_locations(json)
+    json["hits"]
+      .select { |hit| ["city", "postal"].include?(hit["type"]) }
+      .map { |hit| hit["displayName"] }.uniq
+  end
+
+  def get_courses(json)
+    json["hits"]
+      .select { |hit| hit["type"] == "course" }
+      .map { |hit| { course_name: hit["displayName"], course_id: hit["contextInformation"]["courseId"] } }.uniq
   end
 end

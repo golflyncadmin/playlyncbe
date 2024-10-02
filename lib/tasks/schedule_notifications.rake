@@ -3,7 +3,7 @@ namespace :notifications do
   task send: :environment do
     puts "Starting notifications task..."
     current_time = Time.now.hour
-    current_time = 15
+    # current_time = 15
     puts "Current time: #{current_time}"
 
     User.find_each do |user|

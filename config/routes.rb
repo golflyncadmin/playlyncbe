@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # Admin routes
+  devise_for :admins, controllers: {
+    sessions: 'admins/sessions',
+    registrations: 'admins/registrations',
+    passwords: 'admins/passwords'
+  }
+
   root to: proc { [200, {}, ['Welcome to Playlync API!']] }
-
+  get "/test", to: 'test#show'
   namespace :api, constraints: { format: 'json' } do
     namespace :v1 do
       
@@ -28,6 +32,8 @@ Rails.application.routes.draw do
       resources :courses, only: [:index, :create]
       resources :profiles, only: [:show, :update, :destroy]
       resources :requests, only: [:create, :index, :destroy]
+      post '/search', to: 'requests#search'
+      post '/location/courses', to: 'requests#location_courses'
     end
   end
 end
