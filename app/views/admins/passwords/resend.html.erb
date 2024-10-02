@@ -1,0 +1,11 @@
+<h2>Resend Password Reset Instructions</h2>
+
+<%= form_with url: resend_admin_reset_password_path, method: :post do |f| %>
+  <div class="field">
+    <%= f.label :email, "Email" %>
+    <%= f.email_field :email, required: true, autofocus: true %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Resend Reset Instructions", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+<% end %>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../../output.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <div class="p-5">
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700 w-fit">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-styled-tab" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-sm font-semibold !text-primary hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 !border-primary dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent !text-secondary hover:text-gray-600 dark:text-gray-400 border-gray-100 !hover:border-primary dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-[3px] rounded-t-lg" id="Personaldata-styled-tab" data-tabs-target="#styled-Personaldata" type="button" role="tab" aria-controls="Personaldata" aria-selected="false">Personal data</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-[3px] rounded-t-lg " id="password-styled-tab" data-tabs-target="#styled-password" type="button" role="tab" aria-controls="password" aria-selected="false">Password</button>
+                </li>
+            </ul>
+        </div>
+        <div id="default-styled-tab-content">
+            <div class="hidden p-4 rounded-lg bg-white " id="styled-Personaldata" role="tabpanel" aria-labelledby="Personaldata-tab">
+                <div class="w-full max-w-[580px]">
+                    <p class="text-black text-lg font-semibold ">Personal data</p>
+                    <p class="text-secondary font-normal text-sm mt-3"> You can change your data</p>
+                    <div class=" flex justify-between items-center">
+                        <label  class="text-sm font-medium text-typo">Full Name</label>
+                        <input  class="border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-typo  block w-full max-w-[380px] px-3 py-3" placeholder="Ronald Richards" required />
+                    </div>
+                    <div class=" flex justify-between items-center mt-4">
+                        <label  class="text-sm font-medium text-typo">Email</label>
+                        <input  class="border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-typo  block w-full max-w-[380px] px-3 py-3" placeholder="name@email" required />
+                        
+                    </div>
+                    <div class="flex gap-3 justify-end mt-4 lg:mt-8">
+                            <Button type="button" class="text-secondary w-full max-w-[107px] h-9 border border-secondary rounded  hover:bg-secondary hover:text-white transition-all">Cancle </Button>
+                            <Button type="button " class="w-full max-w-[180px] bg-primary hover:opacity-80 rounded h-9 text-white transition-all"> Update Data</Button>
+                        </div>
+                  
+                       
+                                   
+                </div>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-white " id="styled-password" role="tabpanel" aria-labelledby="password-tab">
+                <div class="w-full max-w-[580px]">
+                    <p class="text-black text-lg font-semibold ">Password</p>
+                    <p class="text-secondary font-normal text-sm mt-3"> Please enter your current password to change your password.</p>
+                    <div class=" flex justify-between items-center">
+                        <label  class="text-sm font-medium text-typo">Current Password</label>
+                        <input  class="border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-typo  block w-full max-w-[380px] px-3 py-3" placeholder="....." required />
+                    </div>
+                    <div class=" flex justify-between items-center mt-4">
+                        <label  class="text-sm font-medium text-typo">New Password</label>
+                        <input  class="border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-typo  block w-full max-w-[380px] px-3 py-3" placeholder="........" required />
+                        
+                    </div>
+                    <div class=" flex justify-between items-center mt-4">
+                        <label  class="text-sm font-medium text-typo">Confirm Password</label>
+                        <input  class="border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-typo  block w-full max-w-[380px] px-3 py-3" placeholder="........" required />
+                    </div>
+                    <div class="flex gap-3 justify-end mt-4 lg:mt-8">
+                        <Button type="button" class="text-secondary w-full max-w-[107px] h-9 border border-secondary rounded  hover:bg-secondary hover:text-white transition-all">Cancle </Button>
+                        <Button type="button " class="w-full max-w-[180px] bg-primary hover:opacity-80 rounded h-9 text-white transition-all"> Update Data</Button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+</html>

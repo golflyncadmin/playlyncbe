@@ -6,7 +6,6 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.turbo.min.js"></script>
@@ -14,7 +13,21 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <main class="container mx-auto mt-28 px-5 flex flex-col items-center">
+      <!-- Flash Messages -->
+      <% if flash[:notice] %>
+        <div class="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded relative mb-4 w-full max-w-md">
+          <span><%= flash[:notice] %></span>
+          <button class="absolute top-1 right-1 text-lg font-bold text-green-700" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+      <% end %>
+      <% if flash[:alert] %>
+        <div class="flex items-center bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative mb-4 w-full max-w-md">
+          <span><%= flash[:alert] %></span>
+          <button class="absolute top-1 right-1 text-lg font-bold text-red-700" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+      <% end %>
+
       <%= yield %>
     </main>
   </body>

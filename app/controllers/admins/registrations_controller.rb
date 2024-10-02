@@ -1,5 +1,4 @@
 class Admins::RegistrationsController < Devise::RegistrationsController
-  # include ActionController::Flash
   respond_to :json
 
   def create
