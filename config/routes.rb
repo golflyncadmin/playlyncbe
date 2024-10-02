@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [:show, :update, :destroy]
       resources :requests, only: [:create, :index, :destroy]
       post '/search', to: 'requests#search'
+      post '/location/courses', to: 'requests#location_courses'
     end
   end
 end
