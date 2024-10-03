@@ -1,40 +1,44 @@
-<div class="flex min-h-screen">
-
-  <div class="w-full justify-center p-6 md:p-0 my-auto">
-    <div class="max-w-[360px] w-full md:mx-auto">
-
-      <h1 class="text-2xl font-semibold text-black text-center mb-6">Welcome Back</h1>
-
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="field">
-          <%= f.label :email , class: "text-xs font-normal text-secondary" %><br />
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3" %>
+<div class="flex min-h-screen items-center justify-center p-5">
+  <div class="max-w-[360px] w-full md:mx-auto">
+    <div class="mb-8">
+      <%= image_tag '/assets/svg/Logo.svg', alt: '', class: 'w-28 h-20 mx-auto' %>
+    </div>
+    <h1 class="text-2xl font-semibold text-black text-center mb-6">Welcome Back</h1>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field mb-4">
+        <%= f.label :email , class: "text-xs font-normal text-secondary mb-2 block" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3" %>
+      </div>
+      <div class="field mb-5 relative">
+        <%= f.label :password , class: "text-xs font-normal text-secondary mb-2 block" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3" %>
+        <div class="absolute top-[39px] right-3.5 cursor-pointer">
+          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'togglePassword1' %>
         </div>
-
-        <div class="field">
-          <%= f.label :password , class: "text-xs font-normal text-secondary" %><br />
-          <%= f.password_field :password, autocomplete: "current-password", class: "border border-grey hover:border-primary focus:border-primary bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3" %>
-        </div>
-
-        <% if devise_mapping.rememberable? %>
-          <div class="field">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
+      </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="field flex justify-between gap-2 mb-5">
+          <div class="flex gap-2">
+            <%= f.check_box :remember_me , class: 'rounded border border-primary size-4 cursor-pointer text-primary appearance-none checked:bg-primary checked:border-primary focus:outline-none transition' %>
+            <%= f.label :remember_me , class: 'text-xs font-normal text-typo' %>
           </div>
-        <% end %>
-
-        <div class="actions">
-          <%= f.submit "Log in", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+          <%= link_to "Forgot your password?", new_admin_password_path(resource_name), class: "text-xs font-medium text-primary hover:opacity-80" %>
         </div>
       <% end %>
-
-      <!-- Add Forgot Password Link -->
-      <div class="mt-4 text-center">
-        <%= link_to "Forgot your password?", new_admin_password_path(resource_name), class: "text-blue-500 hover:underline" %>
+      <div class="actions">
+        <%= f.submit "Log in", class: "py-3 w-full mb-6 rounded text-white text-sm font-medium hover:border-transparent bg-primary hover:opacity-80 transition-all cursor-pointer" %>
       </div>
-
-    </div>
+      <div class="flex justify-center gap-2">
+        <p class="text-xs font-normal text-typo">Don’t have an account?</p>
+        <%= link_to "Sign up", new_registration_path(resource_name) , class: "text-xs font-medium text-primary hover:opacity-80" %>
+      </div>
+    <% end %>
   </div>
 </div>
 
-<%= render "admins/shared/links" %>
+
+<script>
+  const passwordFields = document.querySelectorAll(".password-field");
+const toggleButtons = document.querySelectorAll(".toggle-password");
+
+  </script>

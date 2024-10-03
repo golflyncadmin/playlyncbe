@@ -41,4 +41,6 @@ class Admins::PasswordsController < Devise::PasswordsController
       redirect_back(fallback_location: new_session_path(resource_name))
     end
   end
+  def reset
+  end
 end

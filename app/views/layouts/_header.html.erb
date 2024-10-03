@@ -1,0 +1,44 @@
+<header class="flex justify-between gap-4 item-center px-5 py-4 bg-gray-3 w-full border-b border-gray-2">
+  <div class="flex gap-2 items-center">
+    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-200 transition-all">
+      <%= image_tag '/assets/svg/hamburg.svg', alt: '', class: 'size-6' %>
+    </button>
+    <h3 class="text-lg font-medium text-black">
+      <% header_title = case request.path %>
+    <% when '/admins/dashboard' %>
+      Admin Panel
+    <% when '/admins/courses' %>
+      Golf courses
+    <% when '/admins/suggestions' %>
+      Suggestions and Problems
+    <% when '/admins/settings' %>
+      Settings
+    <% end %>
+  </h3>
+</div>
+<div class="flex items-center gap-1">
+  <div class="flex items-center">
+    <button type="button" class="flex items-center text-sm font-medium text-black hover:bg-gray-200 rounded p-2" aria-expanded="false" id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation">
+      Admin
+      <%= image_tag '/assets/svg/arrowdown.svg', alt: '', class: 'ml-1' %>
+    </button>
+    <div id="dropdownInformation" class="z-10 hidden bg-white max-w-[130px] w-full rounded shadow-btn !-ml-8">
+      <ul class="" aria-labelledby="dropdownInformationButton">
+        <li class="text-[10px] font-semibold text-black border-b border-gray-5 px-3 pt-2 pb-0.5">
+          Admin
+        </li>
+        <li class="px-3 pt-0.5 pb-2 text-[11px] block font-normal text-black border-b border-gray-5">
+          Ronald Richards
+          <span class="text-[10px] text-secondary text-normal mt-0.5">emailname@</span>
+        </li>
+      </ul>
+      <div class="">
+        <%= button_to "Log out", destroy_admin_session_path, :method => 'delete', data:{turbo: "false"}, class: "block w-full py-2 px-3 text-xs font-normal text-[#FD3430] hover:bg-[#FD3430]/10 text-left transition-all" %>
+      </div>
+    </div>
+  </div>
+  <div class="size-8 overflow-hidden rounded-full bg-sky-blue text-center">
+    <%= image_tag '/assets/svg/person.svg', alt: '', class: 'w-full' %>
+  </div>
+</div>
+</header>
