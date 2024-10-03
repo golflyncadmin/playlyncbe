@@ -18,8 +18,8 @@ namespace :notifications do
                         else
                           next
                         end
-
-        if Notification.send_and_create_notification(user, subject, body)
+        notification = NotificationService.new(user, subject, body).create_notification
+        if notification
           puts "Notification created and sent for user #{user.id}"
         else
           puts "Failed to send notification for user #{user.id}"
