@@ -1,479 +1,133 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="../../output.css" rel="stylesheet" />
-    <link href="../../input.css" rel="stylesheet" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="w-full flex">
-      <aside
-        id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-[220px] h-screen transition-transform duration-300 -translate-x-full md:!translate-x-0"
-        aria-label="Sidebar"
-      >
-        <div class="h-full scrollbar overflow-y-auto bg-sky-blue">
-          <div class="pt-8 pb-14 mx-auto">
-            <img
-              src="/src/assets/svg/Logo.svg"
-              alt=""
-              class="mx-auto w-[100px] h-[72px]"
-            />
-          </div>
-          <ul class="space-y-2">
-            <li class="">
-              <a
-                href="#"
-                class="flex gap-4 px-4 py-2 items-center text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all"
-              >
-                <img src="/src/assets/svg/admin.svg" alt="" class="size-5" />
-                Admin Panel
-              </a>
-            </li>
-            <li class="">
-              <a
-                href="#"
-                class="flex gap-4 px-4 py-2 items-center text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all"
-              >
-                <img src="/src/assets/svg/golf.svg" alt="" class="size-5" />
-                Golf courses
-              </a>
-            </li>
-            <li class="">
-              <a
-                href="#"
-                class="flex gap-4 px-4 py-2 items-center text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all"
-              >
-                <img src="/src/assets/svg/suggest.svg" alt="" class="size-5" />
-                Suggestions and problems
-              </a>
-            </li>
-            <li class="">
-              <a
-                href="#"
-                class="flex gap-4 px-4 py-2 items-center text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all"
-              >
-                <img src="/src/assets/svg/setting.svg" alt="" class="size-5" />
-                Settings
-              </a>
-            </li>
-          </ul>
-        </div>
-      </aside>
-      <div class="md:ml-[220px] w-full bg-gray-3">
-        <header
-          class="flex justify-between gap-4 item-center px-5 py-4 bg-gray-3 w-full border-b border-gray-2"
-        >
-          <div class="flex gap-2 items-center">
-            <button
-              data-drawer-target="logo-sidebar"
-              data-drawer-toggle="logo-sidebar"
-              aria-controls="logo-sidebar"
-              type="button"
-              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray- focus:outline-none focus:ring-2"
-            >
-              <img src="/src/assets/svg/hamburg.svg" alt="" class="size-6" />
+<div class="p-5 w-full border-b border-gray-2 bg-gray-3">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/user2.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        Total number of users
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">1200</h1>
+    </div>
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        New users (this week)
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">12</h1>
+    </div>
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        New users (this month)
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">68</h1>
+    </div>
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/golf-course.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        Total number of golf courses
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">500</h1>
+    </div>
+  </div>
+</div>
+<div class="bg-white w-full p-3 sm:p-5">
+  <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap">
+    <%= render '/admins/dashboard/calender' %>
+    <div class="flex gap-2.5 md:gap-5 justify-end h-fit w-full">
+      <form class="max-w-[373px] w-full relative h-fit">
+        <input type="search" placeholder="search" class="pl-11 w-full !border-gray-2 border rounded-full focus:!border-primary hover:!border-primary focus:ring-0"/>
+        <%= image_tag '/assets/svg/search.svg', alt: '', class: 'absolute top-3 left-3 size-5' %>
+      </form>
+      <button type="button" class="h-fit flex px-3 py-2.5 items-center text-sm font-medium hover:border-primary text-black border border-gray-2 rounded w-full max-w-[133px]" aria-expanded="false" id="dropdownActionsButton" data-dropdown-toggle="dropdownActions">
+        <%= image_tag '/assets/svg/setting.svg', alt: '', class: 'mr-2 size-5' %>
+        Actions
+        <%= image_tag '/assets/svg/arrowdown.svg', alt: '', class: 'ml-3 size-5' %>
+      </button>
+      <div id="dropdownActions" class="z-10 hidden bg-white !-left-4 rounded shadow-btn w-full max-w-[230px] dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionsButton">
+          <li>
+            <button type="button" data-modal-target="deletepopup-modal" data-modal-toggle="deletepopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100">
+              <%= image_tag '/assets/svg/delete.svg', alt: '', class: 'ml-3 size-5' %>
+              Settings
             </button>
-            <h3 class="text-lg font-medium text-black">Golf courses</h3>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="flex items-center">
-              <button
-                type="button"
-                class="flex items-center text-sm font-medium text-black"
-                aria-expanded="false"
-                id="dropdownInformationButton"
-                data-dropdown-toggle="dropdownInformation"
-              >
-                Admin
-                <img src="/src/assets/svg/arrowdown.svg" alt="" class="ml-1" />
-              </button>
-              <div
-                id="dropdownInformation"
-                class="z-10 hidden bg-white max-w-[130px] w-full rounded shadow-btn !-ml-8"
-              >
-                <ul class="" aria-labelledby="dropdownInformationButton">
-                  <li
-                    class="text-[10px] font-semibold text-black border-b border-gray-5 px-3 pt-2 pb-0.5"
-                  >
-                    Admin
-                  </li>
-                  <li
-                    class="px-3 pt-0.5 pb-2 text-[11px] block font-normal text-black border-b border-gray-5"
-                  >
-                    Ronald Richards
-                    <span class="text-[10px] text-secondary text-normal mt-0.5"
-                      >emailname@</span
-                    >
-                  </li>
-                </ul>
-                <div class="">
-                  <a
-                    href="#"
-                    class="px-3 py-2 block text-xs font-normal text-[#FD3430] hover:bg-gray-100"
-                  >
-                    <%= link_to 'Sign Out', destroy_admin_session_path, method: :delete, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
-                   
-
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="size-8 rounded-full bg-sky-blue text-center">A</div>
-          </div>
-        </header>
-        <div class="p-5 w-full border-b border-gray-2">
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <div class="bg-white border border-gray-2 p-3 rounded">
-              <img src="/src/assets/svg/user2.svg" alt="user" class="size-6" />
-              <p class="text-sm font-normal text-secondary mt-5">
-                Total number of users
-              </p>
-              <h1 class="text-[28px]/8 text-medium text-black mt-3">1200</h1>
-            </div>
-            <div class="bg-white border border-gray-2 p-3 rounded">
-              <img src="/src/assets/svg/user.svg" alt="user" class="size-6" />
-              <p class="text-sm font-normal text-secondary mt-5">
-                New users (this week)
-              </p>
-              <h1 class="text-[28px]/8 text-medium text-black mt-3">12</h1>
-            </div>
-            <div class="bg-white border border-gray-2 p-3 rounded">
-              <img src="/src/assets/svg/user.svg" alt="user" class="size-6" />
-              <p class="text-sm font-normal text-secondary mt-5">
-                New users (this month)
-              </p>
-              <h1 class="text-[28px]/8 text-medium text-black mt-3">68</h1>
-            </div>
-            <div class="bg-white border border-gray-2 p-3 rounded">
-              <img
-                src="/src/assets/svg/golf-course.svg"
-                alt="user"
-                class="size-6"
-              />
-              <p class="text-sm font-normal text-secondary mt-5">
-                Total number of golf courses
-              </p>
-              <h1 class="text-[28px]/8 text-medium text-black mt-3">500</h1>
-            </div>
-          </div>
-        </div>
-        <div class="bg-white w-full p-5">
-          <div
-            class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap"
-          >
-            <div
-              id="date-range-picker"
-              date-rangepicker
-              class="flex items-center"
-            >
-              <div class="relative">
-                <div
-                  class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-                >
-                  <img
-                    src="/src/assets/svg/calender.svg"
-                    alt=""
-                    class="size-5"
-                  />
-                </div>
-                <input
-                  id="datepicker-range-start"
-                  name="start"
-                  type="text"
-                  class="cursor-pointer border !border-gray-2 focus:!border-primary focus:ring-0 hover:!border-primary text-black text-sm rounded block w-full ps-10 p-2.5 bg-white max-w-[220px]"
-                  placeholder="Select Start Date"
-                />
-              </div>
-              <span class="mx-2 md:mx-4 text-xs text-secondary uppercase"
-                >to</span
-              >
-              <div class="relative">
-                <div
-                  class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-                >
-                  <img
-                    src="/src/assets/svg/calender.svg"
-                    alt=""
-                    class="size-5"
-                  />
-                </div>
-                <input
-                  id="datepicker-range-end"
-                  name="end"
-                  type="text"
-                  class="cursor-pointer border !border-gray-2 focus:!border-primary hover:!border-primary focus:ring-0 text-black text-sm rounded block w-full ps-10 p-2.5 bg-white max-w-[220px]"
-                  placeholder="Select End Date"
-                />
-              </div>
-            </div>
-            <div class="flex gap-2.5 md:gap-5 max-sm:flex-wrap justify-end">
-              <form class="max-w-[373px] w-full relative">
-                <input
-                  type="search"
-                  placeholder="search"
-                  class="pl-11 w-full !border-gray-2 border rounded-full focus:!border-primary hover:!border-primary focus:ring-0"
-                />
-                <img
-                  src="/src/assets/svg/search.svg"
-                  alt=""
-                  class="absolute top-3 left-3 size-5"
-                />
-              </form>
-              <button
-                type="button"
-                class="flex px-3 py-2.5 items-center text-sm font-medium text-black border border-gray-2 rounded"
-                aria-expanded="false"
-                id="dropdownActionsButton"
-                data-dropdown-toggle="dropdownActions"
-              >
-                <img
-                  src="/src/assets/svg/setting.svg"
-                  alt=""
-                  class="mr-2 size-5"
-                />
-                Actions
-                <img
-                  src="/src/assets/svg/arrowdown.svg"
-                  alt=""
-                  class="ml-3 size-5"
-                />
-              </button>
-              <div
-                id="dropdownActions"
-                class="z-10 hidden bg-white !-left-4 rounded shadow-btn w-full max-w-[230px] dark:bg-gray-700 dark:divide-gray-600"
-              >
-                <ul
-                  class="text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="dropdownActionsButton"
-                >
-                  <li>
-                    <a
-                      href="#"
-                      data-modal-target="deletepopup-modal"
-                      data-modal-toggle="deletepopup-modal"
-                      class="flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100"
-                    >
-                      <img
-                        src="/src/assets/svg/delete.svg"
-                        alt=""
-                        class="ml-3 size-5"
-                      />
-                      Settings</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      data-modal-target="notificationpopup-modal"
-                      data-modal-toggle="notificationpopup-modal"
-                      class="flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100"
-                    >
-                      <img
-                        src="/src/assets/svg/notification.svg"
-                        alt=""
-                        class="ml-3 size-5"
-                      />
-                      Send in-app notifications</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="scrollbar overflow-x-auto pt-5">
-            <table class="w-full table-auto border-collapse">
-              <thead class="bg-sky-blue">
-                <tr class="">
-                  <th
-                    class="flex gap-4 p-3 text-left text-sm font-medium text-black"
-                  >
-                    <input
-                      type="checkbox"
-                      class="rounded !border !border-gray-2 size-5 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"
-                    />
-                  </th>
-                  <th class="p-3 text-left text-sm font-medium text-black">
-                    Name
-                  </th>
-                  <th class="p-3 text-left text-sm font-medium text-black">
-                    E-mail
-                  </th>
-                  <th class="p-3 text-left text-sm font-medium text-black">
-                    Phone number
-                  </th>
-                  <th class="p-3 text-left text-sm font-medium text-black">
-                    Sign-up date
-                  </th>
-                  <th class="p-3 text-left text-sm font-medium text-black">
-                    User activity
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-2">
-                <tr class="">
-                  <td class="p-3 text-sm font-normal text-black">
-                    <input
-                      type="checkbox"
-                      class="rounded !border !border-gray-2 size-5 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"
-                    />
-                  </td>
-                  <td
-                    class="p-3 text-sm font-normal text-black flex items-center"
-                  >
-                    <img
-                      src="/src/assets/svg/person.svg"
-                      alt=""
-                      class="inline-flex h-6 w-6 rounded-full mr-2"
-                    />
-                    Leslie Alexander
-                  </td>
-                  <td class="p-3 text-sm font-normal text-black">emailname@</td>
-                  <td class="p-3 text-sm font-normal text-black">
-                    +1 (555) 555-1234
-                  </td>
-                  <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
-                  <td class="p-3 text-sm font-normal text-black">
-                    <span class="inline-flex items-center">
-                      <span
-                        class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"
-                      ></span>
-                      Active
-                    </span>
-                  </td>
-                </tr>
-                <tr class="">
-                  <td class="p-3 text-sm font-normal text-black">
-                    <input
-                      type="checkbox"
-                      class="rounded !border !border-gray-2 size-5 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"
-                    />
-                  </td>
-                  <td
-                    class="p-3 text-sm font-normal text-black flex items-center"
-                  >
-                    <img
-                      src="/src/assets/svg/person.svg"
-                      alt=""
-                      class="inline-flex h-6 w-6 rounded-full mr-2"
-                    />
-                    Ronald Richards
-                  </td>
-                  <td class="p-3 text-sm font-normal text-black">emailname@</td>
-                  <td class="p-3 text-sm font-normal text-black">
-                    +1 (555) 555-1234
-                  </td>
-                  <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
-                  <td class="p-3 text-sm font-normal text-black">
-                    <span class="inline-flex items-center">
-                      <span
-                        class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"
-                      ></span>
-                      Not active
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          </li>
+          <li>
+            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
+              <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
+              Send in-app notifications</button>
+          </li>
+        </ul>
       </div>
     </div>
-
-    <!-- Delete Popup -->
-
-    <div
-      id="deletepopup-modal"
-      tabindex="-1"
-      class="px-4 hidden scrollbar overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-    >
-      <div
-        class="w-full max-w-[500px] max-h-full relative bg-white rounded shadow-btn py-10"
-      >
-        <button
-          type="button"
-          class="absolute top-3 end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5"
-          data-modal-hide="deletepopup-modal"
-        >
-          <img src="/src/assets/svg/close.svg" alt="" class="size-6" />
-        </button>
-        <div class="max-w-[330px] mx-auto w-full">
-          <h3 class="text-xl font-medium text-black mb-3 text-center">
-            Are you sure you want to delete users?
-          </h3>
-          <p class="text-sm font-normal text-black text-center">
-            This action cannot be reversed
-          </p>
-          <div
-            class="flex gap-4 items-center mt-4 lg:mt-8 w-full max-sm:flex-col"
-          >
-            <button
-              data-modal-hide="deletepopup-modal"
-              type="button"
-              class="w-full text-xs/[18px] font-normal py-2 text-white text-center !bg-primary rounded hover:opacity-80 transition-all"
-            >
-              Cancel
-            </button>
-            <button
-              data-modal-hide="deletepopup-modal"
-              type="button"
-              class="w-full text-xs/[18px] font-normal py-2 text-black text-center border border-primary hover:text-white hover:bg-primary rounded transition-all"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Notifications Popup -->
-    <div
-      id="notificationpopup-modal"
-      tabindex="-1"
-      class="px-4 hidden scrollbar overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-    >
-      <div
-        class="w-full max-w-[550px] max-h-full relative bg-white rounded shadow-btn py-5"
-      >
-        <div class="max-w-[474px] px-3 mx-auto w-full">
-          <div class="flex justify-between items-center gap-2 !mb-4 md:!mb-8">
-            <h2 class="text-xl font-medium text-black">
-              Send in-app notifications
-            </h2>
-            <button
-              type="button"
-              class="bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5"
-              data-modal-hide="notificationpopup-modal"
-            >
-              <img src="/src/assets/svg/close.svg" alt="" class="size-6" />
-            </button>
-          </div>
-          <label
-            for="message"
-            class="text-sm font-medium text-primary mb-1.5 block"
-            >Message</label
-          >
-          <textarea
-            name="message"
-            id="message"
-            placeholder="Enter your text"
-            class="placholder:text-sm placeholder:text-secondary min-h-[90px] w-full border border-gray-2 rounded resize-none px-3 py-2 focus:border-primary block !mb-4 md:!mb-8"
-          ></textarea>
-          <button
-            data-modal-hide="notificationpopup-modal"
-            type="button"
-            class="ml-auto block w-fit text-xs/[18px] font-normal py-2 px-8 text-white text-center !bg-primary rounded hover:opacity-80 transition-all"
-          >
-            Send a message
-          </button>
-        </div>
-      </div>
-    </div>
-     <%= button_to "Log out", destroy_admin_session_path, :method => 'delete', data:{turbo: "false"}, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
-  </body>
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
-</html>
+  </div>
+  <div class="scrollbar overflow-x-auto pt-5">
+    <table class="w-full table-auto border-collapse">
+      <thead class="bg-sky-blue">
+        <tr class="">
+          <th class="p-3 text-left text-sm font-medium text-black">
+            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+          </th>
+          <th class="p-3 text-left text-sm font-medium text-black max-sm:min-w-[150px]">
+            Name
+          </th>
+          <th class="p-3 text-left text-sm font-medium text-black ">
+            E-mail
+          </th>
+          <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
+            Phone number
+          </th>
+          <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
+            Sign-up date
+          </th>
+          <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
+            User activity
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-2">
+        <tr class="">
+          <td class="p-3 text-sm font-normal text-black">
+            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"/>
+          </td>
+          <td class="p-3 text-sm font-normal text-black flex items-center">
+            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+            Leslie Alexander
+          </td>
+          <td class="p-3 text-sm font-normal text-black">emailname@</td>
+          <td class="p-3 text-sm font-normal text-black">
+            +1 (555) 555-1234
+          </td>
+          <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
+          <td class="p-3 text-sm font-normal text-black">
+            <span class="inline-flex items-center">
+              <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
+              Active
+            </span>
+          </td>
+        </tr>
+        <tr class="">
+          <td class="p-3 text-sm font-normal text-black">
+            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"/>
+          </td>
+          <td class="p-3 text-sm font-normal text-black flex items-center">
+            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+            Ronald Richards
+          </td>
+          <td class="p-3 text-sm font-normal text-black">emailname@</td>
+          <td class="p-3 text-sm font-normal text-black">
+            +1 (555) 555-1234
+          </td>
+          <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
+          <td class="p-3 text-sm font-normal text-black">
+            <span class="inline-flex items-center">
+              <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
+              Not active
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%= render '/admins/dashboard/notification_modal' %>
+<%= render '/admins/dashboard/setting_modal' %>

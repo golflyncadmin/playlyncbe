@@ -1,96 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link href="../../output.css" rel="stylesheet" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="p-5">
-      <div
-        class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap"
-      >
-        <form class="sm:max-w-[220px] w-full">
-          <select
-            id="countries"
-            class="border border-gray-2 text-black text-sm rounded cursor-pointer focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="all"> All</option>
-            <option value="Booked"> Frequently Booked</option>
-            <option value="Recently">Recently Searched</option>
-            
-          </select>
-        </form>
-        <form class="max-w-[373px] w-full relative">
-          <input
-            type="search"
-            placeholder="search"
-            class="pl-11 w-full !border-gray-2 border hover:!border-primary focus:!border-primary focus:!ring-0 rounded-full"
-          />
-          <img
-            src="../../assets/svg/search.svg"
-            alt=""
-            class="absolute top-3 left-3 size-5"
-          />
-        </form>
-      </div>
+<div class="p-3 sm:p-5">
+  <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap">
+    <form class="sm:max-w-[220px] w-full">
+      <select id="countries" class="border border-gray-2 text-black text-sm rounded cursor-pointer hover:border-primary focus:!ring-0 block w-full p-2.5">
+        <option value="all"> All</option>
+        <option value="Booked"> Frequently Booked</option>
+        <option value="Recently">Recently Searched</option>
+      </select>
+    </form>
+    <form class="max-w-[373px] w-full relative">
+      <input type="search" placeholder="search" class="pl-11 w-full !border-gray-2 border hover:!border-primary focus:!border-primary focus:!ring-0 rounded-full"/>
+      <%= image_tag '/assets/svg/search.svg', alt: '', class: 'absolute top-3 left-3 size-5' %>
+    </form>
+  </div>
+  <div class="scrollbar overflow-x-auto pt-5">
+    <table class="w-full table-auto border-collapse">
+      <thead class="bg-sky-blue  rounded-t-md">
+        <tr class="">
+          <th class="p-3 text-left text-sm font-medium text-black">
+            Name
+          </th>
+          <th class="p-3 text-left text-sm font-medium text-black">
+            Phone number
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-2">
+        <tr class="">
+          <td class="p-3 text-sm font-normal text-black flex items-center">
+            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+            Leslie Alexander
+          </td>
+          <td class="p-3 text-sm font-normal text-black">
+            +1 (555) 555-1234
+          </td>
+        </tr>
+        <tr class="">
+          <td class="p-3 text-sm font-normal text-black flex items-center">
+            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+            Ronald Richards
+          </td>
+          <td class="p-3 text-sm font-normal text-black">
+            +1 (555) 555-1234
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-
-      <div class="scrollbar overflow-x-auto pt-5">
-        <table class="w-full table-auto border-collapse">
-          <thead class="bg-sky-blue  rounded-t-md">
-            <tr class="">
-              <th class="p-3 text-left text-sm font-medium text-black">
-                Name
-              </th>
-              <th class="p-3 text-left text-sm font-medium text-black">
-                Phone number
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-2">
-            <tr class="">
-              <td
-                class="p-3 text-sm font-normal text-black flex items-center"
-              >
-                <img
-                  src="/src/assets/svg/person.svg"
-                  alt=""
-                  class="inline-flex h-6 w-6 rounded-full mr-2"
-                />
-                Leslie Alexander
-              </td>
-            
-              <td class="p-3 text-sm font-normal text-black">
-                +1 (555) 555-1234
-              </td>
-            </tr>
-            <tr class="">
-              <td
-                class="p-3 text-sm font-normal text-black flex items-center"
-              >
-                <img
-                  src="/src/assets/svg/person.svg"
-                  alt=""
-                  class="inline-flex h-6 w-6 rounded-full mr-2"
-                />
-                Ronald Richards
-              </td>
-            
-              <td class="p-3 text-sm font-normal text-black">
-                +1 (555) 555-1234
-              </td>
-              
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </body>
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
-</html>

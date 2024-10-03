@@ -1,0 +1,36 @@
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-[220px] h-screen transition-transform duration-300 -translate-x-full md:!translate-x-0" aria-label="Sidebar">
+  <div class="h-full scrollbar overflow-y-auto bg-sky-blue relative">
+      <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="hover:bg-gray-200 transition-all absolute top-2 right-2.5 inline-flex items-center p-1 text-sm text-gray-500 rounded-lg md:hidden">
+    <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
+  </button>
+    <div class="pt-8 pb-14 mx-auto">
+      <%= image_tag '/assets/svg/Logo.svg', alt: '', class: 'mx-auto w-[100px] h-[72px]' %>
+    </div>
+    <ul class="space-y-2">
+      <li class="">
+        <%= link_to admins_dashboard_path, class: "flex gap-4 items-center px-4 py-2 text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all #{active_tab_class(admins_dashboard_path)}" do %>
+          <%= image_tag '/assets/svg/admin.svg', alt: '', class: 'size-5' %>
+          Admin Panel
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admins_courses_path, class: "flex gap-4 items-center px-4 py-2 text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all #{active_tab_class(admins_courses_path)}" do %>
+          <%= image_tag '/assets/svg/golf.svg', alt: '', class: 'size-5' %>
+          Golf courses
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admins_suggestions_path, class: " flex gap-4 items-center px-4 py-2 text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all #{active_tab_class(admins_suggestions_path)} " do %>
+          <%= image_tag '/assets/svg/suggest.svg', alt: '', class: 'size-5' %>
+          Suggestions and problems
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admins_settings_path, class: " flex gap-4 items-center px-4 py-2 text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all #{active_tab_class(admins_settings_path)}" do %>
+          <%= image_tag '/assets/svg/setting.svg', alt: '', class: 'size-5' %>
+          Settings
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</aside>

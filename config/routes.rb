@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   devise_scope :admin do
+    get 'admins/password/reset', to: 'admins/passwords#reset'
     post 'admins/password/resend', to: 'admins/passwords#resend', as: :resend_admin_reset_password
   end
 
