@@ -18,9 +18,9 @@ class NotificationService
     mobile_tokens = fetch_mobile_tokens
     return false unless mobile_tokens.present?
     
-    responses = mobile_tokens.map { |token| send_push_notification(token) }
+    mobile_tokens.map { |token| send_push_notification(token) }
   rescue StandardError => e
-    puts "Notification sending failed for user #{user.id}"
+    puts "Notification sending failed for user #{@user.id}, exception #{e}"
     false
   end
 

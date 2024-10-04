@@ -51,7 +51,8 @@ class OtpService
     response = HTTParty.post('https://a.klaviyo.com/api/track', {
       headers: {
         'Content-Type' => 'application/json',
-        'Accept' => 'application/json'
+        'Accept' => 'application/json',
+        'X-Priority' => '1'
       },
       body: payload.to_json
     })

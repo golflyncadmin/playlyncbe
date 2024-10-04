@@ -65,12 +65,11 @@ class SocialLoginsService
       password: PASSWORD_DIGEST,
       password_confirmation: PASSWORD_DIGEST
     )
-
+    user.save! if user.new_record? || user.changed?
     if @fcm_token
       user.mobile_devices.find_or_create_by(mobile_token: @fcm_token)
     end
 
-    user.save! if user.new_record? || user.changed?
     token = JsonWebToken.encode(user_id: user.id)
     [user, token]
   end
