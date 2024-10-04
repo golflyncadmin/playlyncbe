@@ -1,25 +1,29 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "admins/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+<div class="flex h-screen items-center justify-center p-5">
+  <div class="max-w-[360px] w-full md:mx-auto">
+    <div class="mb-8">
+      <%= image_tag '/assets/svg/Logo.svg', alt: '', class: 'w-28 h-20 mx-auto' %>
+    </div>
+    <h2 class="text-3xl font-semibold text-black text-center mb-3">Set a new password</h2>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "admins/shared/error_messages", resource: resource %>
+      <%= f.hidden_field :reset_password_token %>
+      <div class="field mb-6 relative">
+        <%= f.label :password, "New password" , class: 'text-xs font-normal text-secondary block mb-2' %>
+        <%= f.password_field :password, autofocus: true, autocomplete: "new-password" , class: 'password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 rounded-md !outline-none text-sm placeholder-secondary  block w-full pl-3 pr-10 py-3' %>
+        <div class="absolute top-[39px] right-3.5 cursor-pointer">
+          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'togglePassword1' %>
+        </div>
+      </div>
+      <div class="field mb-6 relative">
+        <%= f.label :password_confirmation, "Confirm new password" , class:'text-xs font-normal text-secondary block mb-2' %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: 'password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 rounded-md !outline-none text-sm placeholder-secondary  block w-full pl-3 pr-10 py-3' %>
+        <div class="absolute top-[39px] right-3.5 cursor-pointer">
+          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'togglePassword1' %>
+        </div>
+      </div>
+      <div class="actions">
+        <%= f.submit "Create new password" , class: 'py-3 w-full rounded-md text-white text-sm font-medium bg-primary hover:opacity-80 cursor-pointer' %>
+      </div>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "admins/shared/links" %>
+</div>

@@ -1,0 +1,133 @@
+<div class="p-5 w-full border-b border-gray-2 bg-gray-3">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/user2.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        Total number of users
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">1200</h1>
+    </div>
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        New users (this week)
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">12</h1>
+    </div>
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        New users (this month)
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">68</h1>
+    </div>
+    <div class="bg-white border border-gray-2 p-3 rounded">
+      <%= image_tag '/assets/svg/golf-course.svg', alt: '', class: 'size-6' %>
+      <p class="text-sm font-normal text-secondary mt-5">
+        Total number of golf courses
+      </p>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">500</h1>
+    </div>
+  </div>
+</div>
+<div class="bg-white w-full p-3 sm:p-5">
+  <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap">
+    <%= render '/admins/dashboard/calender' %>
+    <div class="flex gap-2.5 md:gap-5 justify-end h-fit w-full">
+      <form class="max-w-[373px] w-full relative h-fit">
+        <input type="search" placeholder="search" class="pl-11 w-full !border-gray-2 border rounded-full focus:!border-primary hover:!border-primary focus:ring-0"/>
+        <%= image_tag '/assets/svg/search.svg', alt: '', class: 'absolute top-3 left-3 size-5' %>
+      </form>
+      <button type="button" class="h-fit flex px-3 py-2.5 items-center text-sm font-medium hover:border-primary text-black border border-gray-2 rounded w-full max-w-[133px]" aria-expanded="false" id="dropdownActionsButton" data-dropdown-toggle="dropdownActions">
+        <%= image_tag '/assets/svg/setting.svg', alt: '', class: 'mr-2 size-5' %>
+        Actions
+        <%= image_tag '/assets/svg/arrowdown.svg', alt: '', class: 'ml-3 size-5' %>
+      </button>
+      <div id="dropdownActions" class="z-10 hidden bg-white !-left-4 rounded shadow-btn w-full max-w-[230px] dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionsButton">
+          <li>
+            <button type="button" data-modal-target="deletepopup-modal" data-modal-toggle="deletepopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100">
+              <%= image_tag '/assets/svg/delete.svg', alt: '', class: 'ml-3 size-5' %>
+              Settings
+            </button>
+          </li>
+          <li>
+            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
+              <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
+              Send in-app notifications</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="scrollbar overflow-x-auto pt-5">
+    <table class="w-full table-auto border-collapse">
+      <thead class="bg-sky-blue">
+        <tr class="">
+          <th class="p-3 text-left text-sm font-medium text-black">
+            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+          </th>
+          <th class="p-3 text-left text-sm font-medium text-black max-sm:min-w-[150px]">
+            Name
+          </th>
+          <th class="p-3 text-left text-sm font-medium text-black ">
+            E-mail
+          </th>
+          <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
+            Phone number
+          </th>
+          <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
+            Sign-up date
+          </th>
+          <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
+            User activity
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-2">
+        <tr class="">
+          <td class="p-3 text-sm font-normal text-black">
+            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"/>
+          </td>
+          <td class="p-3 text-sm font-normal text-black flex items-center">
+            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+            Leslie Alexander
+          </td>
+          <td class="p-3 text-sm font-normal text-black">emailname@</td>
+          <td class="p-3 text-sm font-normal text-black">
+            +1 (555) 555-1234
+          </td>
+          <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
+          <td class="p-3 text-sm font-normal text-black">
+            <span class="inline-flex items-center">
+              <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
+              Active
+            </span>
+          </td>
+        </tr>
+        <tr class="">
+          <td class="p-3 text-sm font-normal text-black">
+            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"/>
+          </td>
+          <td class="p-3 text-sm font-normal text-black flex items-center">
+            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+            Ronald Richards
+          </td>
+          <td class="p-3 text-sm font-normal text-black">emailname@</td>
+          <td class="p-3 text-sm font-normal text-black">
+            +1 (555) 555-1234
+          </td>
+          <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
+          <td class="p-3 text-sm font-normal text-black">
+            <span class="inline-flex items-center">
+              <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
+              Not active
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%= render '/admins/dashboard/notification_modal' %>
+<%= render '/admins/dashboard/setting_modal' %>

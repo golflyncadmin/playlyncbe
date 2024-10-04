@@ -1,19 +1,18 @@
 class Admins::RegistrationsController < Devise::RegistrationsController
-  # include ActionController::Flash
-  respond_to :json
-
   def create
     admin = Admin.new(sign_up_params)
     if admin.save
-      render json: { message: 'Admin created successfully.', admin: admin }, status: :created
+      flash[:notice] = 'Account created successfully. Please log in.'
+      redirect_to new_session_path(:admin)
     else
-      render json: { errors: admin.errors.full_messages }, status: :unprocessable_entity
+      flash[:alert] = admin.errors.full_messages.join(', ')
+      render :new
     end
   end
 
   private
 
   def sign_up_params
-    params.require(:admin).permit(:email, :password, :password_confirmation)
+    params.require(:admin).permit(:email, :password, :password_confirmation, :full_name)
   end
 end

@@ -7,6 +7,18 @@ Rails.application.routes.draw do
     passwords: 'admins/passwords'
   }
 
+  namespace :admins do
+    get 'dashboard', to: 'dashboard#index'
+    get 'suggestions', to: 'dashboard#suggestions'
+    get 'settings', to: 'dashboard#settings'
+    resources :courses, only: [:index, :show, :destroy]
+  end
+
+  devise_scope :admin do
+    get 'admins/password/reset', to: 'admins/passwords#reset'
+    post 'admins/password/resend', to: 'admins/passwords#resend', as: :resend_admin_reset_password
+  end
+
   root to: proc { [200, {}, ['Welcome to Playlync API!']] }
   get "/test", to: 'test#show'
   namespace :api, constraints: { format: 'json' } do
