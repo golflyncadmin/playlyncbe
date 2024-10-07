@@ -1,10 +1,14 @@
 <div class="p-3 sm:p-5">
   <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap">
-    <form class="sm:max-w-[220px] w-full">
-      <select id="countries" class="border border-gray-2 text-black text-sm rounded cursor-pointer hover:border-primary focus:!ring-0 block w-full p-2.5">
-        <option value="all"> All</option>
-        <option value="Booked"> Frequently Booked</option>
-        <option value="Recently">Recently Searched</option>
+    <form method="get" action="<%= admins_courses_path %>" class="sm:max-w-[220px] w-full">
+      <select
+        name="filter"
+        id="countries"
+        class="border border-gray-2 text-black text-sm rounded cursor-pointer hover:border-primary focus:!ring-0 block w-full p-2.5"
+        onchange="this.form.submit()">
+        <option value="all" <%= 'selected' if params[:filter] == 'all' %>>All</option>
+        <option value="booked" <%= 'selected' if params[:filter] == 'booked' %>>Frequently Booked</option>
+        <option value="recently" <%= 'selected' if params[:filter] == 'recently' %>>Recently Searched</option>
       </select>
     </form>
     <form class="max-w-[373px] w-full relative">
@@ -25,24 +29,17 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-2">
-        <tr class="">
-          <td class="p-3 text-sm font-normal text-black flex items-center">
-            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
-            Leslie Alexander
-          </td>
-          <td class="p-3 text-sm font-normal text-black">
-            +1 (555) 555-1234
-          </td>
-        </tr>
-        <tr class="">
-          <td class="p-3 text-sm font-normal text-black flex items-center">
-            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
-            Ronald Richards
-          </td>
-          <td class="p-3 text-sm font-normal text-black">
-            +1 (555) 555-1234
-          </td>
-        </tr>
+        <% @courses.each do |course| %>
+          <tr class="">
+            <td class="p-3 text-sm font-normal text-black flex items-center">
+              <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+              <%= course.course_name %>
+            </td>
+            <td class="p-3 text-sm font-normal text-black">
+              <%= course.user&.phone_number %>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>

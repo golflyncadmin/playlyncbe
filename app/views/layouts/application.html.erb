@@ -10,7 +10,6 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js" %>
-
   </head>
   <body class="bg-white">
     <!-- Flash Messages -->
@@ -36,7 +35,7 @@
       </div>
     <% end %>
 
-    <% if controller_name == "dashboard" || controller_name == "courses" %>
+    <% if %w[dashboard courses settings suggestions].include?(controller_name) %>
       <%= render 'layouts/sidebar' %>
       <main class="ml-0 md:!ml-[220px] bg-white">
         <%= render 'layouts/header' %>
@@ -44,17 +43,17 @@
       <%= yield %>
     </main>
 
-  <script>
-    setTimeout(function() {
-      var notice = document.getElementById('notice');
-      var alert = document.getElementById('alert');
-      if (notice) {
-        notice.style.display = 'none';
-      }
-      if (alert) {
-        alert.style.display = 'none';
-      }
-    }, 4000);
-  </script>
+    <script>
+      setTimeout(function() {
+        var notice = document.getElementById('notice');
+        var alert = document.getElementById('alert');
+        if (notice) {
+          notice.style.display = 'none';
+        }
+        if (alert) {
+          alert.style.display = 'none';
+        }
+      }, 4000);
+    </script>
   </body>
 </html>
