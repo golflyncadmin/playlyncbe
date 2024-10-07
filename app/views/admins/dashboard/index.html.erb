@@ -5,28 +5,34 @@
       <p class="text-sm font-normal text-secondary mt-5">
         Total number of users
       </p>
-      <h1 class="text-[28px]/8 text-medium text-black mt-3">1200</h1>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3"><%= @users.count %></h1>
     </div>
     <div class="bg-white border border-gray-2 p-3 rounded">
       <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
       <p class="text-sm font-normal text-secondary mt-5">
         New users (this week)
       </p>
-      <h1 class="text-[28px]/8 text-medium text-black mt-3">12</h1>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">
+        <%= @users.where('created_at >= ?', 1.week.ago).count %>
+      </h1>
     </div>
     <div class="bg-white border border-gray-2 p-3 rounded">
       <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
       <p class="text-sm font-normal text-secondary mt-5">
         New users (this month)
       </p>
-      <h1 class="text-[28px]/8 text-medium text-black mt-3">68</h1>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">
+        <%= @users.where('created_at >= ?', 1.month.ago).count %>
+      </h1>
     </div>
     <div class="bg-white border border-gray-2 p-3 rounded">
       <%= image_tag '/assets/svg/golf-course.svg', alt: '', class: 'size-6' %>
       <p class="text-sm font-normal text-secondary mt-5">
         Total number of golf courses
       </p>
-      <h1 class="text-[28px]/8 text-medium text-black mt-3">500</h1>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3">
+        <%= Course.count %>
+      </h1>
     </div>
   </div>
 </div>
@@ -46,15 +52,16 @@
       <div id="dropdownActions" class="z-10 hidden bg-white !-left-4 rounded shadow-btn w-full max-w-[230px] dark:bg-gray-700 dark:divide-gray-600">
         <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionsButton">
           <li>
-            <button type="button" data-modal-target="deletepopup-modal" data-modal-toggle="deletepopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100">
+            <button type="button" data-modal-target="deletepopup-modal" data-modal-toggle="deletepopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" onclick="setDeleteUrl('<%= admins_dashboard_index_path() %>')">
               <%= image_tag '/assets/svg/delete.svg', alt: '', class: 'ml-3 size-5' %>
-              Settings
+              Delete
             </button>
           </li>
           <li>
             <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
               <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
-              Send in-app notifications</button>
+              Send in-app notifications
+            </button>
           </li>
         </ul>
       </div>
@@ -63,14 +70,14 @@
   <div class="scrollbar overflow-x-auto pt-5">
     <table class="w-full table-auto border-collapse">
       <thead class="bg-sky-blue">
-        <tr class="">
+        <tr>
           <th class="p-3 text-left text-sm font-medium text-black">
             <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
           </th>
           <th class="p-3 text-left text-sm font-medium text-black max-sm:min-w-[150px]">
             Name
           </th>
-          <th class="p-3 text-left text-sm font-medium text-black ">
+          <th class="p-3 text-left text-sm font-medium text-black">
             E-mail
           </th>
           <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
@@ -85,46 +92,33 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-2">
-        <tr class="">
-          <td class="p-3 text-sm font-normal text-black">
-            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"/>
-          </td>
-          <td class="p-3 text-sm font-normal text-black flex items-center">
-            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
-            Leslie Alexander
-          </td>
-          <td class="p-3 text-sm font-normal text-black">emailname@</td>
-          <td class="p-3 text-sm font-normal text-black">
-            +1 (555) 555-1234
-          </td>
-          <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
-          <td class="p-3 text-sm font-normal text-black">
-            <span class="inline-flex items-center">
-              <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
-              Active
-            </span>
-          </td>
-        </tr>
-        <tr class="">
-          <td class="p-3 text-sm font-normal text-black">
-            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none  focus:ring-0 transition"/>
-          </td>
-          <td class="p-3 text-sm font-normal text-black flex items-center">
-            <%= image_tag '/assets/svg/person.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
-            Ronald Richards
-          </td>
-          <td class="p-3 text-sm font-normal text-black">emailname@</td>
-          <td class="p-3 text-sm font-normal text-black">
-            +1 (555) 555-1234
-          </td>
-          <td class="p-3 text-sm font-normal text-black">2023-09-14</td>
-          <td class="p-3 text-sm font-normal text-black">
-            <span class="inline-flex items-center">
-              <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
-              Not active
-            </span>
-          </td>
-        </tr>
+        <% @users.each do |user| %>
+          <tr>
+            <td class="p-3 text-sm font-normal text-black">
+              <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+            </td>
+            <td class="p-3 text-sm font-normal text-black flex items-center">
+              <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+              <%= user&.first_name %>
+            </td>
+            <td class="p-3 text-sm font-normal text-black"><%= user.email %></td>
+            <td class="p-3 text-sm font-normal text-black">
+              <%= user&.phone_number %>
+            </td>
+            <td class="p-3 text-sm font-normal text-black"><%= user.created_at.to_datetime.strftime("%Y-%m-%d") %></td>
+            <td class="p-3 text-sm font-normal text-black">
+              <span class="inline-flex items-center">
+                <% if user.active? %>
+                  <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
+                  Active
+                <% else %>
+                  <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
+                  Not Active
+                <% end %>
+              </span>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>

@@ -4,14 +4,14 @@
       <%= image_tag '/assets/svg/hamburg.svg', alt: '', class: 'size-6' %>
     </button>
     <h3 class="text-lg font-medium text-black">
-      <% header_title = case request.path %>
-    <% when '/admins/dashboard' %>
+      <% header_title = case controller_name %>
+    <% when "dashboard" %>
       Admin Panel
-    <% when '/admins/courses' %>
+    <% when "courses" %>
       Golf courses
-    <% when '/admins/suggestions' %>
+    <% when "suggestions" %>
       Suggestions and Problems
-    <% when '/admins/settings' %>
+    <% when "settings" %>
       Settings
     <% end %>
   </h3>
@@ -28,8 +28,8 @@
           Admin
         </li>
         <li class="px-3 pt-0.5 pb-2 text-[11px] block font-normal text-black border-b border-gray-5">
-          Ronald Richards
-          <span class="text-[10px] text-secondary text-normal mt-0.5">emailname@</span>
+          <%= current_admin.full_name %>
+          <span class="text-[10px] text-secondary text-normal mt-0.5"><%=current_admin.email %></span>
         </li>
       </ul>
       <div class="">
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="size-8 overflow-hidden rounded-full bg-sky-blue text-center">
-    <%= image_tag '/assets/svg/person.svg', alt: '', class: 'w-full' %>
+    <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'w-full' %>
   </div>
 </div>
 </header>

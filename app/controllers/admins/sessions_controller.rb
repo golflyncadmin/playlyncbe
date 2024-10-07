@@ -3,7 +3,7 @@ class Admins::SessionsController < Devise::SessionsController
     super do |resource|
       if resource.persisted?
         flash[:notice] = 'Signed in successfully.'
-        redirect_to admins_dashboard_path and return
+        redirect_to admins_dashboard_index_path and return
       end
     end
   end

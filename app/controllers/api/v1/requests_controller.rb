@@ -10,8 +10,10 @@ class Api::V1::RequestsController < Api::ApiController
 
       return error_response('Request already exists with these parameters', :unprocessable_entity)
     end
+
     @request = current_user.requests.new(request_params)
-    
+    course = @request.location.split(',').map(&:strip)
+    Course.find_or_create_by!(id: params[:course_id], course_name: course[0], course_location: course[1..-1].join(', '), user_id: @request.user.id, status: "approved")
     response = GameRequestService.new.call(@request, params)
     if response[:records].present? && response[:success]
       if @request.save
@@ -77,7 +79,7 @@ class Api::V1::RequestsController < Api::ApiController
   end
 
   def request_params
-    params.require(:request).permit(:start_date, :end_date, :location, {:time => []}, :players)
+    params.require(:request).permit(:start_date, :end_date, :location, {:time => []}, :players, :course_id)
   end
 
   def tee_time_params(record)

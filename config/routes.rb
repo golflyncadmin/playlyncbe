@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   }
 
   namespace :admins do
-    get 'dashboard', to: 'dashboard#index'
-    get 'suggestions', to: 'dashboard#suggestions'
-    get 'settings', to: 'dashboard#settings'
+    resources :dashboard, only: [:index]
+    resources :suggestions, only: [:index]
+    resources :settings, only: [:index, :update]
     resources :courses, only: [:index, :show, :destroy]
   end
 

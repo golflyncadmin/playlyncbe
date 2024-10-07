@@ -20,4 +20,8 @@ class User < ApplicationRecord
     otp_service.send_phone_otp if phone_number.present?
     otp_service.send_email_otp if email.present?
   end
+
+  def active?
+    requests.exists?(["created_at > ?", 30.days.ago])
+  end
 end
