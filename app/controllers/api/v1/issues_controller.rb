@@ -1,5 +1,6 @@
 class Api::V1::IssuesController < Api::ApiController
 
+  # Report an issue
   def create
     issue = Issue.new(issue_params)
 

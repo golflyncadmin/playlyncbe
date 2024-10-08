@@ -6,6 +6,10 @@ class Course < ApplicationRecord
 
   validates :course_name, :course_location, presence: true
 
+  scope :pending, -> { where(status: "pending").order(created_at: :desc) }
+  scope :approved, -> { where(status: "approved").order(created_at: :desc) }
+  scope :declined, -> { where(status: "declined").order(created_at: :desc) }
+
   scope :frequently_booked, -> {
     joins(:requests)
       .where('requests.created_at > ?', 1.month.ago)

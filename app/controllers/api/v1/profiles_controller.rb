@@ -2,6 +2,7 @@ class Api::V1::ProfilesController < Api::ApiController
   before_action :authorize_request
   before_action :set_user
 
+  # Profile show
   def show
     success_response('Profile fetched successfully', UserSerializer.new(@user), :ok)
   end
@@ -14,6 +15,7 @@ class Api::V1::ProfilesController < Api::ApiController
     end
   end
 
+  # Delete profile
   def destroy
     @user.destroy
     success_response('Profile deleted successfully', [], :ok)

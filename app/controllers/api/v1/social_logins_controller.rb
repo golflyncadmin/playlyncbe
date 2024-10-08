@@ -15,7 +15,7 @@ class Api::V1::SocialLoginsController < Api::ApiController
 
     if user
       user_json = UserSerializer.new(response.first).as_json
-      success_response('Logged in successfully', user_json.merge({ token: response.last }))
+      success_response('Logged in successfully', user_json.merge({ token: auth_token }))
     else
       error_response(response, :unprocessable_entity)
     end

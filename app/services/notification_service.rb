@@ -5,6 +5,7 @@ class NotificationService
     @body = body
   end
 
+  # create notification
   def create_notification
     response = send_notification
     if response
@@ -26,6 +27,7 @@ class NotificationService
 
   private
 
+  # Get device tokens
   def fetch_mobile_tokens
     @user.mobile_devices.pluck(:mobile_token)
   end
@@ -40,6 +42,7 @@ class NotificationService
     end
   end
 
+  # Send api request
   def notification_api(token)
     http_request(
       uri: notification_uri,
@@ -48,10 +51,12 @@ class NotificationService
     )
   end
 
+  # set notification uri
   def notification_uri
     URI.parse("#{ENV['NOTIFICATION_MAIN_API']}/#{ENV['PROJECT_ID']}/#{ENV['NOTIFICATION_SEND_API']}")
   end
 
+  # Get fcm token
   def fetch_access_token
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
       json_key_io: File.open(Rails.root.join('config', 'firebase_key.json')),
@@ -60,6 +65,7 @@ class NotificationService
     authorizer.fetch_access_token!['access_token']
   end
 
+  # Set notification body
   def notification_body(token)
     {
       message: {
@@ -81,6 +87,7 @@ class NotificationService
     http.request(request)
   end
 
+  # Parsing
   def parse_response(response)
     JSON.parse(response.body)
   rescue JSON::ParserError => e

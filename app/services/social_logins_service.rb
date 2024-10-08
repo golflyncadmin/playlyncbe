@@ -4,6 +4,7 @@ class SocialLoginsService
   require 'open-uri'
   require 'jwt'
 
+  # Set random password
   PASSWORD_DIGEST = SecureRandom.hex(10)
   APPLE_PEM_URL = 'https://appleid.apple.com/auth/keys'
 
@@ -38,6 +39,7 @@ class SocialLoginsService
     end
   end
 
+  # send request
   def process_signup(uri)
     response = Net::HTTP.get_response(uri)
     return JSON.parse(response.body) unless response.is_a?(Net::HTTPSuccess)
@@ -48,6 +50,7 @@ class SocialLoginsService
     return e.message
   end
 
+  # Decode apple data
   def decode_apple_token
     header_segment = JSON.parse(Base64.decode64(@token.split('.').first))
     apple_response = Net::HTTP.get(URI.parse(APPLE_PEM_URL))
@@ -58,6 +61,7 @@ class SocialLoginsService
     JWT.decode(@token, jwk.public_key, true, { algorithm: header_segment['alg'] }).first
   end
 
+  # create user in DB.
   def create_user(response)
     user = User.find_or_initialize_by(email: response['email'])
     user.assign_attributes(

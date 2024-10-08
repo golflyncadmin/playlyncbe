@@ -1,8 +1,8 @@
 class Admins::SuggestionsController < Admins::BaseController
   def index
-    @new_courses = Course.where(status: "pending").order(created_at: :desc)
-    @approved_courses = Course.where(status: "approved").order(created_at: :desc)
-    @declined_courses = Course.where(status: "declined").order(created_at: :desc)
+    @new_courses = Course.pending
+    @approved_courses = Course.approved
+    @declined_courses = Course.declined
     @issues = Issue.all
   end
 end

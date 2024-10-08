@@ -1,11 +1,13 @@
 class Api::V1::CoursesController < Api::ApiController
   before_action :authorize_request
 
+  # Get all approved courses
   def index
     courses = Course.approved
     success_response('Courses fetched successfully', courses.map { |course| CourseSerializer.new(course) }, :ok)
   end
 
+  # Suggest a course
   def create
     existing_course = current_user.courses.find_by(course_name: course_params[:course_name], course_location: course_params[:course_location])
 

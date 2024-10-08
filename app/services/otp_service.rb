@@ -6,28 +6,33 @@ class OtpService
     @user = user
   end
 
+  # send Phone otp
   def send_phone_otp
     otp = generate_otp
     @user.update(phone_otp: otp, phone_otp_expiry: 2.minutes.from_now)
     send_sms(@user.phone_number, otp, "otp")
   end
 
+  # send email otp
   def send_email_otp
     otp = generate_otp
     @user.update(email_otp: otp, email_otp_expiry: 2.minutes.from_now)
     send_email(@user.email, otp, "otp")
   end
 
+  # reminder mail for tee times
   def send_tee_times_mail
     send_email(@user.email, nil, "tee_time")
   end
 
+  # reminder sms for tee times
   def send_tee_times_sms
     send_sms(@user.phone_number, nil, "tee_time")
   end
 
   private
 
+  # get random otp
   def generate_otp
     rand(100000..999999).to_s
   end

@@ -1,6 +1,7 @@
 class Api::V1::SessionsController < Api::ApiController
   before_action :find_user
 
+  # Sign In user
   def login
     if @user
       @user.mobile_devices.find_or_create_by(mobile_token: params[:fcm_token])
@@ -13,6 +14,7 @@ class Api::V1::SessionsController < Api::ApiController
     error_response('An error occurred during login', :internal_server_error)
   end
 
+  # Destroy user session
   def logout
     if @user
       @user.update(updated_at: Time.now)
@@ -24,6 +26,7 @@ class Api::V1::SessionsController < Api::ApiController
 
   private
 
+  # Authenticate User before sign in
   def authentication
     if @user&.valid_password?(params[:password])
       otp_service = OtpService.new(@user)

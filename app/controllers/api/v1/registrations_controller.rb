@@ -1,6 +1,7 @@
 class Api::V1::RegistrationsController < Api::ApiController
   before_action :find_user, except: :create
 
+  # Sign Up
   def create
     user = User.new(user_params)
     if user.save
@@ -14,6 +15,7 @@ class Api::V1::RegistrationsController < Api::ApiController
     error_response(e.record.errors.full_messages, status: :unprocessable_entity)
   end
 
+  # Verify Otp
   def otp_verification
     if @user
       phone_otp_valid = params[:phone_otp].present? &&
@@ -42,6 +44,7 @@ class Api::V1::RegistrationsController < Api::ApiController
     end
   end
 
+  # Forgot Password
   def forgot_password
     if @user
       otp_service = OtpService.new(@user)
@@ -61,6 +64,7 @@ class Api::V1::RegistrationsController < Api::ApiController
     end
   end
 
+  # Reset Password
   def reset_password
     if @user&.valid_password?(params[:new_password])
       return error_response("New password can't be the old password", :unprocessable_entity)
@@ -74,6 +78,7 @@ class Api::V1::RegistrationsController < Api::ApiController
     end
   end
 
+  # Resend Otp
   def resend_otp
     if @user
       otp_service = OtpService.new(@user)

@@ -2,7 +2,7 @@ class Api::V1::RequestsController < Api::ApiController
   before_action :authorize_request
   before_action :set_request, only: [:show, :destroy]
 
-
+  # Create user request
   def create
     if current_user.requests.exists?(start_date: request_params[:start_date], end_date: request_params[:end_date],
                                      time: request_params[:time], location: request_params[:location],
@@ -13,6 +13,8 @@ class Api::V1::RequestsController < Api::ApiController
 
     @request = current_user.requests.new(request_params)
     course = @request.location.split(',').map(&:strip)
+
+    # create request course
     Course.find_or_create_by!(id: params[:course_id], course_name: course[0], course_location: course[1..-1].join(', '), user_id: @request.user.id, status: "approved")
     response = GameRequestService.new.call(@request, params)
     if response[:records].present? && response[:success]
@@ -33,11 +35,13 @@ class Api::V1::RequestsController < Api::ApiController
     end
   end
 
+  # get all requests
   def index
     @requests = current_user.requests
     success_response('All requests', @requests, :ok)
   end
 
+  # Delete single request
   def destroy
     if @request
       @request.destroy
@@ -47,6 +51,7 @@ class Api::V1::RequestsController < Api::ApiController
     end
   end
 
+  # search suggestions
   def search
     response = get_suggestions(params[:search])
     if response
@@ -60,6 +65,7 @@ class Api::V1::RequestsController < Api::ApiController
     end
   end
 
+  # get course location
   def location_courses
     response = get_suggestions(params[:location])
     if response

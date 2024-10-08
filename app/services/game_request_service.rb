@@ -31,6 +31,7 @@ class GameRequestService
     result
   end
 
+  # Get location of course
   def geolookup_request(search)
     uri = URI.parse("https://www.golfnow.com/api/autocomplete/geolookup")
     request = Net::HTTP::Post.new(uri)
@@ -51,6 +52,7 @@ class GameRequestService
     end
   end
 
+  # Get tee times
   def get_course_tee_times(data, course_id, time_range)
     uri = URI.parse("https://www.golfnow.com/api/tee-times/tee-time-results")
     random_port = rand(10000..10004)
@@ -67,6 +69,7 @@ class GameRequestService
     JSON.parse(response.body)
   end
 
+  # Parsing
   def parse_response(json)
     json["ttResults"]["teeTimes"].each do |tee_time|
       begin
@@ -146,6 +149,7 @@ class GameRequestService
     datetime.strftime("%I:%M %p")
   end
 
+  # Time range [7am, 11am, 3pm]
   def get_time_range(time_periods)
     time_periods = Array(time_periods).map(&:downcase)
     
@@ -184,6 +188,7 @@ class GameRequestService
     end
   end
 
+  # Fromat request date
   def parse_date(date_str)
     Date.parse(date_str)
   rescue ArgumentError
@@ -214,6 +219,7 @@ class GameRequestService
     end
   end
 
+  # Show error log
   def log_error(date)
     @errors << { date: date, error: @log }
   end
