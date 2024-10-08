@@ -13,7 +13,7 @@ module.exports = {
         primary: "#0980D0",
         secondary: "#9597A7",
         "sky-blue": "#E8F6FF",
-        "dark-blue": "##0967A6",
+        "dark-blue": "#0967A6",
         "typo":"#0D0423", 
         gray: {
           DEFAULT: "#626262",
