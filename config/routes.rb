@@ -8,11 +8,16 @@ Rails.application.routes.draw do
   }
 
   namespace :admins do
-    resources :dashboard, only: [:index]
     resources :suggestions, only: [:index] do
       post :send_message, on: :member
     end
 
+    resources :dashboard, only: [:index] do
+      collection do
+        delete :delete_users
+        post :send_notifications
+      end
+    end 
     resources :settings, only: [:index, :update]
     resources :courses, only: [:index, :show, :destroy] do
       member do

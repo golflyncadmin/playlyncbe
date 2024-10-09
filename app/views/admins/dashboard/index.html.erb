@@ -52,13 +52,18 @@
       <div id="dropdownActions" class="z-10 hidden bg-white !-left-4 rounded shadow-btn w-full max-w-[230px] dark:bg-gray-700 dark:divide-gray-600">
         <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionsButton">
           <li>
-            <button type="button" data-modal-target="deletepopup-modal" data-modal-toggle="deletepopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" onclick="setDeleteUrl('<%= admins_dashboard_index_path() %>')">
+            <button 
+              type="button" 
+              data-modal-target="deletepopup-modal" 
+              data-modal-toggle="deletepopup-modal" 
+              class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" 
+              onclick="deleteUsers()">
               <%= image_tag '/assets/svg/delete.svg', alt: '', class: 'ml-3 size-5' %>
               Delete
             </button>
           </li>
           <li>
-            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
+            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100" onclick="sendNotifications()">
               <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
               Send in-app notifications
             </button>
@@ -72,7 +77,7 @@
       <thead class="bg-sky-blue">
         <tr>
           <th class="p-3 text-left text-sm font-medium text-black">
-            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+            <input type="checkbox" id="select-all" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
           </th>
           <th class="p-3 text-left text-sm font-medium text-black max-sm:min-w-[150px]">
             Name
@@ -96,7 +101,7 @@
           <% @users.each do |user| %>
             <tr>
               <td class="p-3 text-sm font-normal text-black">
-                <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+                <input type="checkbox" class="user-checkbox rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition" data-id="<%= user.id %>" data-action="delete-users#toggleSelection" />
               </td>
               <td class="p-3 text-sm font-normal text-black flex items-center">
                 <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
@@ -123,7 +128,7 @@
         <% else %>
           <tr>
             <td colspan="6" class="p-3 text-sm font-normal text-black text-center">
-              <span>No users found against your search. </span>
+              No users found.
             </td>
           </tr>
         <% end %>
@@ -133,3 +138,29 @@
 </div>
 <%= render '/admins/dashboard/notification_modal' %>
 <%= render '/admins/dashboard/setting_modal' %>
+
+<script>
+  function deleteUsers() {
+    const selectedCheckboxes = document.querySelectorAll('.user-checkbox:checked');
+    const selectedUserIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
+
+    if (selectedUserIds.length === 0) {
+      return;
+    }
+
+    const modalController = document.querySelector('[data-controller="delete-users"]');
+    modalController.dataset.selectedUserIds = JSON.stringify(selectedUserIds);
+
+    const modal = document.getElementById("deletepopup-modal");
+    modal.classList.remove("hidden");
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const selectAllCheckbox = document.getElementById("select-all");
+    const userCheckboxes = document.querySelectorAll(".user-checkbox");
+
+    selectAllCheckbox.addEventListener("change", function() {
+      userCheckboxes.forEach(checkbox => checkbox.checked = selectAllCheckbox.checked);
+    });
+  });
+</script>
