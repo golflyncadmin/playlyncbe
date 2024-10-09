@@ -89,7 +89,11 @@
             Phone number
           </th>
           <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
-            Sign-up date
+            <div class="flex gap-2 justify-between">
+              Sign-up date
+              <%= link_to image_tag('/assets/svg/sort.svg', alt: '', class: 'size-[18px]'), 
+                          admins_dashboard_index_path(sort: @sort_direction == "asc" ? "desc" : "asc", search: params[:search], start: params[:start], end: params[:end]), method: :get %>
+            </div>
           </th>
           <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
             User activity
@@ -117,6 +121,9 @@
                   <% if user.active? %>
                     <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
                     Active
+                  <% elsif user.average? %>
+                    <span class="h-2 w-2 bg-[#ffbb28] rounded-full mr-2.5"></span>
+                    Average
                   <% else %>
                     <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
                     Not Active

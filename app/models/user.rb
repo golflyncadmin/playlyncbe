@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, presence: true, uniqueness: true
-  validates :phone_number, uniqueness: true, if: :phone_number
+  validates :phone_number, uniqueness: true, presence: true
   
   after_create :generate_otps
 
@@ -29,6 +29,14 @@ class User < ApplicationRecord
   end
 
   def active?
-    requests.exists?(["created_at > ?", 30.days.ago])
+    requests.exists?(["created_at > ?", 7.days.ago])
+  end
+
+  def average?
+    requests.exists?(["created_at > ?", 15.days.ago]) && !active?
+  end
+
+  def not_active?
+    requests.exists?(["created_at > ?", 30.days.ago]) && !active? && !average?
   end
 end

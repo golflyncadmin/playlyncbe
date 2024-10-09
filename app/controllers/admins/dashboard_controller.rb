@@ -1,10 +1,12 @@
 class Admins::DashboardController < Admins::BaseController
   def index
     @total_users = User.all
+    @sort_direction = params[:sort] == "asc" ? "asc" : "desc"
+
+    @users = User.all
+
     if params[:search].present?
-      @users = User.search_by_full_name_and_email_and_phone_number(params[:search])
-    else
-      @users = User.order(created_at: :desc)
+      @users = @users.search_by_full_name_and_email_and_phone_number(params[:search])
     end
 
     if params[:start].present? && params[:end].present?
@@ -13,7 +15,7 @@ class Admins::DashboardController < Admins::BaseController
       @users = @users.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
     end
 
-    @users = @users.paginate(page: params[:page], per_page: 10)
+    @users = @users.paginate(page: params[:page], per_page: 10).order(created_at: @sort_direction)
   end
 
   def delete_users    
