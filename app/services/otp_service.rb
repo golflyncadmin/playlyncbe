@@ -35,6 +35,11 @@ class OtpService
     send_email(email: email, type: "custom", custom_message: message_content)
   end
 
+  def send_reset_password_email(email, message_content)
+    user = Admin.find_by(email: email)
+    send_email(email: user.email, type: "reset", user_name: user.full_name, custom_message: message_content)
+  end
+
   private
 
   # Generate random OTP
@@ -64,19 +69,20 @@ class OtpService
     event_name = case type
                  when "otp" then "Send-OTP"
                  when "tee_time" then "Send SMS"
+                 when "reset" then "Sent SMS"
                  else "Custom Message"
                  end
 
     token = ENV['KLAVIYO_API_KEY']
     message_content = custom_message || "Default message"
 
-    user_display_name = user_name || otp || ""
+    user_name = user_name || otp || ""
 
     payload = {
       token: token,
       event: event_name,
       customer_properties: { "$email" => email },
-      properties: { user_name: user_display_name, message: message_content },
+      properties: { user_name: user_name, message: message_content },
       time: Time.now.to_i
     }
 

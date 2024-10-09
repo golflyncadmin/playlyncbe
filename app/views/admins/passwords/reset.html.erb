@@ -23,8 +23,8 @@
           </svg>
           <div id="timer-text" class="absolute text-2xl font-bold text-primary">00:18</div>
         </div>
-        <div class="actions">
-          <%= f.submit "Resend Reset Instructions", class: "py-3 w-full rounded-md text-white text-sm font-medium hover:border-transparent bg-primary transition-all cursor-pointer hover:opacity-80" %>
+        <div id="resend-button" class="actions">
+          <%= f.submit "Re-send the email", class: "py-3 w-full rounded-md text-white text-sm font-medium bg-primary transition-all cursor-pointer hover:opacity-80", disabled: true %>
         </div>
       <% end %>
     </div>
@@ -39,6 +39,7 @@
 
   const progressCircle = document.getElementById('progress-circle');
   const timerText = document.getElementById('timer-text');
+  const resendButton = document.querySelector('#resend-button input[type="submit"]');
 
   function updateProgress() {
     const progress = ((duration - timeLeft) / duration) * circumference;
@@ -62,6 +63,9 @@
       updateTimeDisplay();
     } else {
       clearInterval(timerInterval);
+      resendButton.disabled = false;
+      resendButton.classList.remove('opacity-50');
+      resendButton.classList.add('hover:opacity-80');
     }
   }, 1000);
 

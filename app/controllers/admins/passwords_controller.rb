@@ -1,10 +1,13 @@
 class Admins::PasswordsController < Devise::PasswordsController
   def create
     admin = Admin.find_by(email: params[:admin][:email])
+    # @@admin_email = Admin.find_by(email: params[:admin][:email])
     if admin.present?
-      admin.send_reset_password_instructions
+      token = admin.send_reset_password_instructions
+      otp_service = OtpService.new(admin)
+      otp_service.send_reset_password_email(admin.email, edit_password_url(admin, reset_password_token: token))
       flash[:notice] = 'Password recovery instructions sent.'
-      redirect_to new_session_path(resource_name)
+      redirect_to admins_password_reset_path(resource_name)
     else
       flash[:alert] = 'Email not found.'
       redirect_to new_admin_password_path
