@@ -63,7 +63,7 @@
             </button>
           </li>
           <li>
-            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
+            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100" onclick="sendNotifications()">
               <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
               Send in-app notifications
             </button>
@@ -101,7 +101,7 @@
           <% @users.each do |user| %>
             <tr>
               <td class="p-3 text-sm font-normal text-black">
-                <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+                <input type="checkbox" class="user-checkbox rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition" data-id="<%= user.id %>" data-action="delete-users#toggleSelection" />
               </td>
               <td class="p-3 text-sm font-normal text-black flex items-center">
                 <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
@@ -127,28 +127,8 @@
           <% end %>
         <% else %>
           <tr>
-            <td class="p-3 text-sm font-normal text-black">
-              <input type="checkbox" class="user-checkbox rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition" data-id="<%= user.id %>" data-action="delete-users#toggleSelection" />
-            </td>
-            <td class="p-3 text-sm font-normal text-black flex items-center">
-              <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
-              <%= user&.first_name %>
-            </td>
-            <td class="p-3 text-sm font-normal text-black"><%= user.email %></td>
-            <td class="p-3 text-sm font-normal text-black">
-              <%= user&.phone_number %>
-            </td>
-            <td class="p-3 text-sm font-normal text-black"><%= user.created_at.to_datetime.strftime("%Y-%m-%d") %></td>
-            <td class="p-3 text-sm font-normal text-black">
-              <span class="inline-flex items-center">
-                <% if user.active? %>
-                  <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
-                  Active
-                <% else %>
-                  <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
-                  Not Active
-                <% end %>
-              </span>
+            <td colspan="6" class="p-3 text-sm font-normal text-black text-center">
+              No users found.
             </td>
           </tr>
         <% end %>

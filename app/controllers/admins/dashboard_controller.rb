@@ -18,28 +18,29 @@ class Admins::DashboardController < Admins::BaseController
   def delete_users    
     if params[:user_ids].present?
       User.where(id: params[:user_ids]).destroy_all
-      render json: { message: "Selected users have been deleted." }, status: :ok
+      flash[:notice] = "Selected users have been deleted."
     else
-      render json: { error: "No users selected." }, status: :unprocessable_entity
+      flash[:alert] = "No users selected."
     end
-  end
+    redirect_to admins_dashboard_index_path, status: :ok
+  end  
 
   def send_notifications
     user_ids = params[:user_ids]
     message = params[:message]
     subject = "New Notification"
-    
+  
     if user_ids.present? && message.present?
       users = User.where(id: user_ids)
-      
+  
       users.each do |user|
         notification_service = NotificationService.new(user, subject, message)
         notification_service.create_notification
       end
-  
-      render json: { success: true, message:pz "Notifications sent successfully." }, status: :ok
+      flash[:notice] = 'Notifications sent successfully.'
     else
-      render json: { success: false, message: "No users selected or message is empty." }, status: :unprocessable_entity
+      flash[:alert] = 'No users selected or message is empty.'
     end
-  end
+    redirect_to admins_dashboard_index_path, status: :ok
+  end  
 end
