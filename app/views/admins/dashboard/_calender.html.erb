@@ -1,16 +1,22 @@
-    
-<div id="date-range-picker" date-rangepicker class="flex items-center w-full" >
-  <div class="relative">
-    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-      <%= image_tag '/assets/svg/calender.svg', alt: '', class: 'size-5' %>
+<form action="<%= admins_dashboard_index_path %>" method="get" class="flex items-center w-full">
+  <div id="date-range-picker" date-rangepicker class="flex items-center w-full">
+    <div class="relative">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <%= image_tag '/assets/svg/calender.svg', alt: '', class: 'size-5' %>
+      </div>
+      <input id="datepicker-range-start" name="start" type="text" autocomplete="off" class="cursor-pointer border !border-gray-2 focus:!border-primary focus:ring-0 hover:!border-primary text-black text-sm rounded block w-full ps-10 p-2.5 bg-white max-w-[220px]" placeholder="Select Start Date"/>
     </div>
-    <input id="datepicker-range-start" name="start" type="text" class="cursor-pointer border !border-gray-2 focus:!border-primary focus:ring-0 hover:!border-primary text-black text-sm rounded block w-full ps-10 p-2.5 bg-white max-w-[220px]" placeholder="Select Start Date"/>
-  </div>
-  <span class="mx-2 md:mx-4 text-xs text-secondary uppercase">to</span>
-  <div class="relative">
-    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-      <%= image_tag '/assets/svg/calender.svg', alt: '', class: 'size-5' %>
+    <span class="mx-2 md:mx-4 text-xs text-secondary uppercase">to</span>
+    <div class="relative">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <%= image_tag '/assets/svg/calender.svg', alt: '', class: 'size-5' %>
+      </div>
+      <input id="datepicker-range-end" name="end" type="text" autocomplete="off" class="cursor-pointer border !border-gray-2 focus:!border-primary hover:!border-primary focus:ring-0 text-black text-sm rounded block w-full ps-10 p-2.5 bg-white max-w-[220px]" placeholder="Select End Date"/>
     </div>
-    <input id="datepicker-range-end" name="end" type="text" class="cursor-pointer border !border-gray-2 focus:!border-primary hover:!border-primary focus:ring-0 text-black text-sm rounded block w-full ps-10 p-2.5 bg-white max-w-[220px]" placeholder="Select End Date"/>
+    <div style="margin-left:10px">
+      <button type="submit" class="ml-4 bg-blue-500 text-white text-sm py-2 px-4 rounded">
+        Filter Users
+      </button>
+    </div>
   </div>
-</div>
+</form>

@@ -5,7 +5,7 @@
       <p class="text-sm font-normal text-secondary mt-5">
         Total number of users
       </p>
-      <h1 class="text-[28px]/8 text-medium text-black mt-3"><%= @users.count %></h1>
+      <h1 class="text-[28px]/8 text-medium text-black mt-3"><%= @total_users.count %></h1>
     </div>
     <div class="bg-white border border-gray-2 p-3 rounded">
       <%= image_tag '/assets/svg/user.svg', alt: '', class: 'size-6' %>
@@ -13,7 +13,7 @@
         New users (this week)
       </p>
       <h1 class="text-[28px]/8 text-medium text-black mt-3">
-        <%= @users.where('created_at >= ?', 1.week.ago).count %>
+        <%= @total_users.where('created_at >= ?', 1.week.ago).count %>
       </h1>
     </div>
     <div class="bg-white border border-gray-2 p-3 rounded">
@@ -22,7 +22,7 @@
         New users (this month)
       </p>
       <h1 class="text-[28px]/8 text-medium text-black mt-3">
-        <%= @users.where('created_at >= ?', 1.month.ago).count %>
+        <%= @total_users.where('created_at >= ?', 1.month.ago).count %>
       </h1>
     </div>
     <div class="bg-white border border-gray-2 p-3 rounded">
@@ -40,10 +40,10 @@
   <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap">
     <%= render '/admins/dashboard/calender' %>
     <div class="flex gap-2.5 md:gap-5 justify-end h-fit w-full">
-      <form class="max-w-[373px] w-full relative h-fit">
-        <input type="search" placeholder="search" class="pl-11 w-full !border-gray-2 border rounded-full focus:!border-primary hover:!border-primary focus:ring-0"/>
+      <%= form_with url: admins_dashboard_index_path, method: :get, local: true, class: "max-w-[373px] w-full relative h-fit" do |f| %>
+        <%= f.text_field :search, placeholder: "Search", class: "pl-11 w-full !border-gray-2 border rounded-full focus:!border-primary hover:!border-primary focus:ring-0" %>
         <%= image_tag '/assets/svg/search.svg', alt: '', class: 'absolute top-3 left-3 size-5' %>
-      </form>
+      <% end %>
       <button type="button" class="h-fit flex px-3 py-2.5 items-center text-sm font-medium hover:border-primary text-black border border-gray-2 rounded w-full max-w-[133px]" aria-expanded="false" id="dropdownActionsButton" data-dropdown-toggle="dropdownActions">
         <%= image_tag '/assets/svg/setting.svg', alt: '', class: 'mr-2 size-5' %>
         Actions
@@ -52,13 +52,18 @@
       <div id="dropdownActions" class="z-10 hidden bg-white !-left-4 rounded shadow-btn w-full max-w-[230px] dark:bg-gray-700 dark:divide-gray-600">
         <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionsButton">
           <li>
-            <button type="button" data-modal-target="deletepopup-modal" data-modal-toggle="deletepopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" onclick="setDeleteUrl('<%= admins_dashboard_index_path() %>')">
+            <button 
+              type="button" 
+              data-modal-target="deletepopup-modal" 
+              data-modal-toggle="deletepopup-modal" 
+              class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" 
+              onclick="deleteUsers()">
               <%= image_tag '/assets/svg/delete.svg', alt: '', class: 'ml-3 size-5' %>
               Delete
             </button>
           </li>
           <li>
-            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
+            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100" onclick="sendNotifications()">
               <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
               Send in-app notifications
             </button>
@@ -72,7 +77,7 @@
       <thead class="bg-sky-blue">
         <tr>
           <th class="p-3 text-left text-sm font-medium text-black">
-            <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+            <input type="checkbox" id="select-all" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
           </th>
           <th class="p-3 text-left text-sm font-medium text-black max-sm:min-w-[150px]">
             Name
@@ -84,7 +89,11 @@
             Phone number
           </th>
           <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
-            Sign-up date
+            <div class="flex gap-2 justify-between">
+              Sign-up date
+              <%= link_to image_tag('/assets/svg/sort.svg', alt: '', class: 'size-[18px]'), 
+                          admins_dashboard_index_path(sort: @sort_direction == "asc" ? "desc" : "asc", search: params[:search], start: params[:start], end: params[:end]), method: :get %>
+            </div>
           </th>
           <th class="whitespace-nowrap p-3 text-left text-sm font-medium text-black">
             User activity
@@ -92,30 +101,46 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-2">
-        <% @users.each do |user| %>
+        <% if @users.any? %>
+          <% @users.each do |user| %>
+            <tr>
+              <td class="p-3 text-sm font-normal text-black">
+                <input type="checkbox" class="user-checkbox rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition" data-id="<%= user.id %>" data-action="delete-users#toggleSelection" />
+              </td>
+              <td class="p-3 text-sm font-normal text-black flex items-center">
+                <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
+                <%= user&.first_name %>
+              </td>
+              <td class="p-3 text-sm font-normal text-black"><%= user.email %></td>
+              <td class="p-3 text-sm font-normal text-black">
+                <%= user&.phone_number %>
+              </td>
+              <td class="p-3 text-sm font-normal text-black"><%= user.created_at.to_datetime.strftime("%Y-%m-%d") %></td>
+              <td class="p-3 text-sm font-normal text-black">
+                <span class="inline-flex items-center">
+                  <% if user.active? %>
+                    <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
+                    Active
+                  <% elsif user.average? %>
+                    <span class="h-2 w-2 bg-[#ffbb28] rounded-full mr-2.5"></span>
+                    Average
+                  <% else %>
+                    <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
+                    Not Active
+                  <% end %>
+                </span>
+              </td>
+            </tr>
+          <% end %>
           <tr>
-            <td class="p-3 text-sm font-normal text-black">
-              <input type="checkbox" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
+            <td colspan="6" class="p-3 text-sm font-normal text-black text-center">
+              <%= will_paginate @users %>
             </td>
-            <td class="p-3 text-sm font-normal text-black flex items-center">
-              <%= image_tag '/assets/svg/avatar.svg', alt: '', class: 'inline-flex h-6 w-6 rounded-full mr-2' %>
-              <%= user&.first_name %>
-            </td>
-            <td class="p-3 text-sm font-normal text-black"><%= user.email %></td>
-            <td class="p-3 text-sm font-normal text-black">
-              <%= user&.phone_number %>
-            </td>
-            <td class="p-3 text-sm font-normal text-black"><%= user.created_at.to_datetime.strftime("%Y-%m-%d") %></td>
-            <td class="p-3 text-sm font-normal text-black">
-              <span class="inline-flex items-center">
-                <% if user.active? %>
-                  <span class="h-2 w-2 bg-[#13C728] rounded-full mr-2.5"></span>
-                  Active
-                <% else %>
-                  <span class="h-2 w-2 bg-[#FD3430] rounded-full mr-2.5"></span>
-                  Not Active
-                <% end %>
-              </span>
+          </tr>
+        <% else %>
+          <tr>
+            <td colspan="6" class="p-3 text-sm font-normal text-black text-center">
+              No users found.
             </td>
           </tr>
         <% end %>
@@ -125,3 +150,29 @@
 </div>
 <%= render '/admins/dashboard/notification_modal' %>
 <%= render '/admins/dashboard/setting_modal' %>
+
+<script>
+  function deleteUsers() {
+    const selectedCheckboxes = document.querySelectorAll('.user-checkbox:checked');
+    const selectedUserIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
+
+    if (selectedUserIds.length === 0) {
+      return;
+    }
+
+    const modalController = document.querySelector('[data-controller="delete-users"]');
+    modalController.dataset.selectedUserIds = JSON.stringify(selectedUserIds);
+
+    const modal = document.getElementById("deletepopup-modal");
+    modal.classList.remove("hidden");
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const selectAllCheckbox = document.getElementById("select-all");
+    const userCheckboxes = document.querySelectorAll(".user-checkbox");
+
+    selectAllCheckbox.addEventListener("change", function() {
+      userCheckboxes.forEach(checkbox => checkbox.checked = selectAllCheckbox.checked);
+    });
+  });
+</script>

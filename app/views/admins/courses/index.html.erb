@@ -7,14 +7,15 @@
         class="border border-gray-2 text-black text-sm rounded cursor-pointer hover:border-primary focus:!ring-0 block w-full p-2.5"
         onchange="this.form.submit()">
         <option value="all" <%= 'selected' if params[:filter] == 'all' %>>All</option>
-        <option value="booked" <%= 'selected' if params[:filter] == 'booked' %>>Frequently Booked</option>
+        <option value="frequently" <%= 'selected' if params[:filter] == 'frequently' %>>Frequently Booked</option>
         <option value="recently" <%= 'selected' if params[:filter] == 'recently' %>>Recently Searched</option>
       </select>
     </form>
-    <form class="max-w-[373px] w-full relative">
-      <input type="search" placeholder="search" class="pl-11 w-full !border-gray-2 border hover:!border-primary focus:!border-primary focus:!ring-0 rounded-full"/>
+
+    <%= form_with url: admins_courses_path, method: :get, local: true, class: "max-w-[373px] w-full relative" do |f| %>
+      <%= f.search_field :search, placeholder: "search", value: params[:search], class: "pl-11 w-full !border-gray-2 border hover:!border-primary focus:!border-primary focus:!ring-0 rounded-full" %>
       <%= image_tag '/assets/svg/search.svg', alt: '', class: 'absolute top-3 left-3 size-5' %>
-    </form>
+    <% end %>
   </div>
   <div class="scrollbar overflow-x-auto pt-5">
     <table class="w-full table-auto border-collapse">
@@ -40,7 +41,23 @@
             </td>
           </tr>
         <% end %>
+        <% if @courses.empty? %>
+          <tr>
+            <td colspan="2" class="p-3 text-sm font-normal text-gray-500 text-center">
+              No courses found.
+            </td>
+          </tr>
+        <% end %>
       </tbody>
+      <% if @courses.any? %>
+        <tfoot>
+          <tr>
+            <td colspan="2" class="p-3 text-sm font-normal text-black text-center">
+              <%= will_paginate @courses, renderer: WillPaginate::ActionView::LinkRenderer, previous_label: 'Previous', next_label: 'Next' %>
+            </td>
+          </tr>
+        </tfoot>
+      <% end %>
     </table>
   </div>
 </div>
