@@ -1,5 +1,4 @@
-  
-<div id="deletepopup-modal" tabindex="-1" class="px-4 hidden scrollbar overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="deletepopup-modal" tabindex="-1" class="px-4 hidden scrollbar overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full" data-controller="delete-users">
   <div class="w-full max-w-[500px] max-h-full relative bg-white rounded shadow-btn py-10">
     <button type="button" class="absolute top-3 end-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1" data-modal-hide="deletepopup-modal">
       <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
@@ -15,7 +14,11 @@
         <button data-modal-hide="deletepopup-modal" type="button" class="w-full text-xs/[18px] font-normal py-2 text-white text-center !bg-primary rounded hover:opacity-80 transition-all">
           Cancel
         </button>
-        <button data-modal-hide="deletepopup-modal" type="button" class="w-full text-xs/[18px] font-normal py-2 text-black text-center border border-primary hover:text-white hover:bg-primary rounded transition-all">
+        <button 
+          data-modal-hide="deletepopup-modal" 
+          type="button" 
+          class="w-full text-xs/[18px] font-normal py-2 text-black text-center border border-primary hover:text-white hover:bg-primary rounded transition-all" 
+          data-action="delete-users#deleteSelectedUsers">
           Delete
         </button>
       </div>
