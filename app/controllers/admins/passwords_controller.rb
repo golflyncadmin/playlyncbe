@@ -1,7 +1,9 @@
 class Admins::PasswordsController < Devise::PasswordsController
+  @@admin_email = nil
+
   def create
     admin = Admin.find_by(email: params[:admin][:email])
-    # @@admin_email = Admin.find_by(email: params[:admin][:email])
+    @@admin_email = admin if admin.present?
     if admin.present?
       token = admin.send_reset_password_instructions
       otp_service = OtpService.new(admin)
@@ -34,11 +36,13 @@ class Admins::PasswordsController < Devise::PasswordsController
   end
 
   def resend
-    admin = Admin.find_by(email: params[:admin][:email])
+    admin = Admin.find_by(email: @@admin_email.email)
     if admin
-      admin.send_reset_password_instructions
-      flash[:notice] = 'Reset password instructions sent.'
-      redirect_to new_session_path(resource_name)
+      token = admin.send_reset_password_instructions
+      otp_service = OtpService.new(admin)
+      otp_service.send_reset_password_email(admin.email, edit_password_url(admin, reset_password_token: token))
+      flash[:notice] = 'Reset password instructions resent.'
+      redirect_to admins_password_reset_path(resource_name)
     else
       flash[:alert] = 'Email not found.'
       redirect_back(fallback_location: new_session_path(resource_name))

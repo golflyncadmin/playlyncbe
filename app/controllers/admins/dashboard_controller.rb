@@ -10,9 +10,10 @@ class Admins::DashboardController < Admins::BaseController
     if params[:start].present? && params[:end].present?
       start_date = Date.strptime(params[:start], '%m/%d/%Y')
       end_date = Date.strptime(params[:end], '%m/%d/%Y')
-
       @users = @users.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
     end
+
+    @users = @users.paginate(page: params[:page], per_page: 10)
   end
 
   def delete_users    

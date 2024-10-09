@@ -16,6 +16,7 @@ class Admins::CoursesController < Admins::BaseController
                          .order("courses.course_name ASC, courses.created_at DESC")
                  end
                end
+    @courses = @courses.paginate(page: params[:page], per_page: 10)
   end
 
   def approve
