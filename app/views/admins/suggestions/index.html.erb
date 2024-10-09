@@ -39,43 +39,53 @@
                 </thead>
                 <tbody class="text-sm font-normal text-typo">
                   <% @new_courses.each do |course| %>
-                    <tr class="whitespace-nowrap border-b border-gray-2">
-                      <td class="py-4 px-3"><%= course.user.email%></td>
-                      <td class="py-4 px-3"><%= course.course_name%></td>
-                      <td class="py-4 px-3"><%= course.course_location%></td>
+                    <tr class="border-b border-gray-2">
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.user.email%></td>
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.course_name%></td>
+                      <td class="py-4 px-3">
+                        <p class="line-clamp-1 max-w-[600px] w-full">
+                          <%= course.course_location%>
+                        </p>
+                      </td>
                       <td class="py-4 px-3 flex items-center gap-3">
-                        <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="!text-white text-xs font-normal flex items-center px-4 py-1 !bg-primary hover:opacity-80  rounded  focus:outline-none cursor-pointer">Approve</button>
-                        <div id="popup-modal" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0  justify-center items-center z-50">
-                          <div class="w-full max-w-[550px] h-[448px] relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
+                        <%= button_to 'Approve', approve_admins_course_path(course), method: :patch, class: '!text-white text-xs font-normal flex items-center px-4 py-1 !bg-primary hover:opacity-80 rounded focus:outline-none cursor-pointer'%>
+                        <div id="popup-modal<%= course.id %>" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0  justify-center items-center z-50">
+                          <div class="w-full max-w-[550px] h-fit relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
                             <div class="px-4 md:px-12 py-5">
                               <div class="flex justify-between items-center mb-8">
                                 <h1 class="text-xl font-medium">View suggestion</h1>
-                                <div data-modal-hide="popup-modal" class=" bg-transparent hover:bg-gray-200  rounded-lg p-1.5 cursor-pointer">
+                                <div data-modal-hide="popup-modal<%= course.id %>" class=" bg-transparent hover:bg-gray-200  rounded-lg p-1.5 cursor-pointer">
                                   <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
                                 </div>
                               </div>
                               <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
                                 <div class="w-full">
                                   <label  class="text-sm font-medium text-primary mb-2">E-mail</label>
-                                  <input  class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 hover:border-primary focus:ring-0" placeholder=<%= course.user.email%> required />
+                                  <div  class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                    <%= course.user.email%>
+                                  </div>
                                 </div>
                                 <div class="w-full">
                                   <label  class="text-sm font-medium text-primary mb-2">Topic</label>
-                                  <input  class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 hover:border-primary focus:ring-0" placeholder=<%= course.course_name%> required />
+                                  <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                    <%= course.course_name%>
+                                  </div>
                                 </div>
                                 <div class="w-full">
                                   <label  class="text-sm font-medium text-primary mb-2">Description</label>
-                                  <textarea rows="3" class="border border-gray-2 hover:border-primary resize-none mt-2 rounded text-sm font-normal text-typo block w-full px-3 py-2 focus:outline-transparent focus:ring-0 !outline-none" placeholder=<%= course.course_location%>></textarea>
+                                  <div class="line-clamp-6 whitespace-normal min-h-20 border border-gray-2 break-all mt-2 rounded text-sm font-normal text-typo block w-full px-3 py-2">
+                                    <%= course.course_location%>
+                                  </div>
                                 </div>
                               </div>
                               <div class="flex justify-end">
-                                <button type="button" data-modal-hide="popup-modal" class="w-28 py-2 flex text-xs font-normal rounded justify-center items-center bg-primary text-white cursor-pointer">Approve</button>
+                                <%= button_to 'Approve', approve_admins_course_path(course), method: :patch, class: 'w-28 py-2 flex text-xs font-normal rounded justify-center items-center bg-primary text-white cursor-pointer'%>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <button type="button" class="text-black text-xs font-normal flex items-center px-4 py-1 border border-primary rounded hover:bg-primary hover:text-white focus:outline-none cursor-pointer transition-all">Reject</button>
-                        <div class="size-6">
+                        <%= button_to 'Reject', reject_admins_course_path(course), method: :patch, class: 'text-black text-xs font-normal flex items-center px-4 py-1 border border-primary rounded hover:bg-primary hover:text-white focus:outline-none cursor-pointer transition-all'%>
+                        <div class="size-6 cursor-pointer" data-modal-target="popup-modal<%= course.id %>" data-modal-toggle="popup-modal<%= course.id %>">
                           <%= image_tag '/assets/svg/mdi_eye.svg', alt: '', class: '' %>
                         </div>
                       </td>
@@ -98,10 +108,14 @@
                 </thead>
                 <tbody class="text-sm font-normal text-typo">
                   <% @approved_courses.each do |course| %>
-                    <tr class="whitespace-nowrap border-b border-gray-2">
-                      <td class="py-4 px-3"><%= course.user.email%></td>
-                      <td class="py-4 px-3"><%= course.course_name%></td>
-                      <td class="py-4 px-3"><%= course.course_location%></td>
+                    <tr class="border-b border-gray-2">
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.user.email%></td>
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.course_name%></td>
+                      <td class="py-4 px-3">
+                        <p class="line-clamp-1 max-w-[600px] w-full">
+                          <%= course.course_location%>
+                        </p>
+                      </td>
                       <td class="py-4 px-3 flex items-center gap-3">
                         <p class="text-xs font-normal text-primary">Approve</p>
                         <div class="size-6">
@@ -127,12 +141,16 @@
                 </thead>
                 <tbody class="text-sm font-normal text-typo">
                   <% @declined_courses.each do |course| %>
-                    <tr class="whitespace-nowrap border-b border-gray-2">
-                      <td class="py-4 px-3"><%= course.user.email%></td>
-                      <td class="py-4 px-3"><%= course.course_name%></td>
-                      <td class="py-4 px-3"><%= course.course_location%></td>
+                    <tr class="border-b border-gray-2">
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.user.email%></td>
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.course_name%></td>
+                      <td class="py-4 px-3">
+                        <p class="line-clamp-1 max-w-[600px] w-full">
+                          <%= course.course_location%>
+                        </p>
+                      </td>
                       <td class="py-4 px-3 flex items-center gap-3">
-                        <p class="text-xs font-normal text-primary">Delete</p>
+                        <%= button_to 'Delete', admins_course_path(course), method: :delete, class: 'text-xs font-normal text-primary' %>
                       </td>
                     </tr>
                   <% end %>
@@ -166,66 +184,78 @@
                   </tr>
                 </thead>
                 <tbody class="text-sm font-normal text-typo">
-                  <% @issues.each do |issue| %>
-                    <tr class="whitespace-nowrap border-b border-gray-2">
-                      <td class="py-4 px-3"><%= issue.email%></td>
-                      <td class="py-4 px-3"><%= issue.subject%></td>
-                      <td class="py-4 px-3"><%= issue.body%></td>
+                  <% @new_issues.each do |issue| %>
+                    <tr class="border-b border-gray-2">
+                      <td class="whitespace-nowrap py-4 px-3"><%= issue.email %></td>
+                      <td class="whitespace-nowrap py-4 px-3"><%= issue.subject %></td>
+                      <td class="py-4 px-3">
+                        <p class="line-clamp-1 max-w-[600px] w-full">
+                          <%= issue.body %>
+                        </p>
+                      </td>
                       <td class="py-4 px-3 flex items-center gap-3">
-                        <button type="button" data-modal-target="popup-modal2" data-modal-toggle="popup-modal2" class="size-6 cursor-pointer">
+                        <button type="button" data-modal-target="popup-modal<%= issue.id %>" data-modal-toggle="popup-modal<%= issue.id %>" class="size-6 cursor-pointer">
                           <%= image_tag '/assets/svg/mdi_eye.svg', alt: '', class: '' %>
                         </button>
-                        <div id="popup-modal2" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
-                          <div class="w-full max-w-[550px] h-[448px] relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
+                        <div id="popup-modal<%= issue.id %>" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
+                          <div class="w-full max-w-[550px] h-fit relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
                             <div class="px-4 md:px-12 py-5">
                               <div class="flex justify-between items-center mb-8">
                                 <h1 class="text-xl font-medium">View problem</h1>
-                                <div data-modal-hide="popup-modal2" class="  bg-transparent hover:bg-gray-200  rounded-lg p-1.5 cursor-pointer">
+                                <div data-modal-hide="popup-modal<%= issue.id %>" class="bg-transparent hover:bg-gray-200 rounded-lg p-1.5 cursor-pointer">
                                   <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
                                 </div>
                               </div>
                               <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
                                 <div class="w-full">
-                                  <label  class="text-sm font-medium text-primary mb-2">E-mail</label>
-                                  <input  class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 hover:border-primary focus:ring-0 " placeholder="emailname@" required />
+                                  <label class="text-sm font-medium text-primary mb-2">E-mail</label>
+                                  <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                    <%= issue.email %>
+                                  </div>
                                 </div>
                                 <div class="w-full">
-                                  <label  class="text-sm font-medium text-primary mb-2">Topic</label>
-                                  <input  class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 hover:border-primary focus:ring-0 " placeholder="enter your message" required />
+                                  <label class="text-sm font-medium text-primary mb-2">Topic</label>
+                                  <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                    <%= issue.subject %>
+                                  </div>
                                 </div>
                                 <div class="w-full">
-                                  <label  class="text-sm font-medium text-primary mb-2">Description</label>
-                                  <textarea rows="4" class="border border-gray-2 hover:border-primary resize-none mt-2 rounded text-sm font-normal text-typo block w-full px-3 py-2  focus:outline-transparent  focus:ring-0 !outline-none" placeholder="enter your message"></textarea>
+                                  <label class="text-sm font-medium text-primary mb-2">Description</label>
+                                  <div class="line-clamp-6 whitespace-normal min-h-20 border border-gray-2 break-all mt-2 rounded text-sm font-normal text-typo block w-full px-3 py-2">
+                                    <%= issue.body %>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <button type="button" data-modal-target="popup-modal3" data-modal-toggle="popup-modal3" class="size-6 cursor-pointer">
+                        <button type="button" data-modal-target="popup-modal3-<%= issue.id %>" data-modal-toggle="popup-modal3-<%= issue.id %>" class="size-6 cursor-pointer">
                           <%= image_tag '/assets/svg/mail.svg', alt: '', class: '' %>
                         </button>
-                        <div id="popup-modal3" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
+                        <div id="popup-modal3-<%= issue.id %>" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
                           <div class="w-full max-w-[550px] relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
                             <div class="px-4 md:px-12 py-5">
                               <div class="flex justify-between items-center mb-8">
                                 <h1 class="text-xl font-medium">Send a message</h1>
-                                <div data-modal-hide="popup-modal3" class="  bg-transparent hover:bg-gray-200  rounded-lg p-1.5 cursor-pointer">
+                                <div data-modal-hide="popup-modal3-<%= issue.id %>" class="bg-transparent hover:bg-gray-200 rounded-lg p-1.5 cursor-pointer">
                                   <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
                                 </div>
                               </div>
-                              <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
-                                <div class="w-full">
-                                  <label  class="text-sm font-medium text-primary mb-2">E-mail</label>
-                                  <input  class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 hover:border-primary focus:ring-0 " placeholder="emailname@" required />
+                              <%= form_with url: send_message_admins_suggestion_path(issue), method: :post, local: true do |f| %>
+                                <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
+                                  <div class="w-full">
+                                    <label class="text-sm font-medium text-primary mb-2">E-mail</label>
+                                    <%= f.email_field :email, value: issue.email, class: 'border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 focus:!ring-0', required: true, readonly: true %>
+                                  </div>
+                                  <div class="w-full">
+                                    <label class="text-sm font-medium text-primary mb-2">Message</label>
+                                    <%= f.text_area :message, rows: 3, class: 'border border-gray-2 hover:border-primary resize-none mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 placeholder:text-secondary focus:outline-transparent focus:ring-0 !outline-none', placeholder: 'Enter your text' , required: true %>
+                                  </div>
                                 </div>
-                                <div class="w-full">
-                                  <label  class="text-sm font-medium text-primary mb-2">Message</label>
-                                  <textarea rows="3" class="border border-gray-2  hover:border-primary resize-none mt-2 rounded text-sm font-normal text-secondary block w-full px-3 py-2 placeholder:text-secondary focus:outline-transparent  focus:ring-0 !outline-none" placeholder="Enter your text"></textarea>
+                                <div class="flex justify-end">
+                                  <%= f.submit 'Send a message', data: { modal_hide: "popup-modal3-#{issue.id}" }, class: 'cursor-pointer w-40 h-[34px] flex text-xs font-normal rounded justify-center items-center bg-primary text-white hover:opacity-80' %>
                                 </div>
-                              </div>
-                              <div class="flex justify-end">
-                                <button data-modal-hide="popup-modal3" class="w-40 h-[34px] flex text-xs font-normal rounded justify-center items-center bg-primary text-white hover:opacity-80">Send a message</button>
-                              </div>
+                              <% end %>
                             </div>
                           </div>
                         </div>
@@ -248,17 +278,86 @@
                   </tr>
                 </thead>
                 <tbody class="text-sm font-normal text-typo">
-                  <% @issues.each do |issue| %>
-                    <tr class="whitespace-nowrap border-b border-gray-2">
-                      <td class="py-4 px-3"><%= issue.email%></td>
-                      <td class="py-4 px-3"><%= issue.subject%></td>
-                      <td class="py-4 px-3"><%= issue.body%></td>
+                  <% @archived_issues.each do |issue| %>
+                    <tr class="border-b border-gray-2">
+                      <td class="whitespace-nowrap py-4 px-3"><%= issue.email%>
+                      </td>
+                      <td class="whitespace-nowrap py-4 px-3"><%= issue.subject%>
+                      </td>
+                      <td class="py-4 px-3">
+                        <p class="line-clamp-1 max-w-[600px] w-full">
+                          <%= issue.body%>
+                        </p>
+                      </td>
                       <td class="py-4 px-3 flex items-center gap-3">
                         <div class="size-6">
-                          <%= image_tag '/assets/svg/mdi_eye.svg', alt: '', class: '' %>
+                          <button type="button" data-modal-target="popup-modalarchived-<%= issue.id %>" data-modal-toggle="popup-modalarchived-<%= issue.id %>" class="size-6 cursor-pointer">
+                            <%= image_tag '/assets/svg/mdi_eye.svg', alt: '', class: '' %>
+                          </button>
+                          <div id="popup-modalarchived-<%= issue.id %>" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
+                            <div class="w-full max-w-[550px] h-fit relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
+                              <div class="px-4 md:px-12 py-5">
+                                <div class="flex justify-between items-center mb-8">
+                                  <h1 class="text-xl font-medium">View problem</h1>
+                                  <div data-modal-hide="popup-modalarchived-<%= issue.id %>" class="bg-transparent hover:bg-gray-200 rounded-lg p-1.5 cursor-pointer">
+                                    <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
+                                  </div>
+                                </div>
+                                <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
+                                  <div class="w-full">
+                                    <label class="text-sm font-medium text-primary mb-2">E-mail</label>
+                                    <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                      <%= issue.email %>
+                                    </div>
+                                  </div>
+                                  <div class="w-full">
+                                    <label class="text-sm font-medium text-primary mb-2">Topic</label>
+                                    <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                      <%= issue.subject %>
+                                    </div>
+                                  </div>
+                                  <div class="w-full">
+                                    <label class="text-sm font-medium text-primary mb-2">Description</label>
+                                    <div class="line-clamp-6 whitespace-normal min-h-20 border border-gray-2 break-all mt-2 rounded text-sm font-normal text-typo block w-full px-3 py-2">
+                                      <%= issue.body %>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <div class="size-6">
-                          <%= image_tag '/assets/svg/mail.svg', alt: '', class: '' %>
+                          <button type="button" data-modal-target="popup-modalarchived2-<%= issue.id %>" data-modal-toggle="popup-modalarchived2-<%= issue.id %>" class="size-6 cursor-pointer">
+                            <%= image_tag '/assets/svg/mail.svg', alt: '', class: '' %>
+                          </button>
+                          <div id="popup-modalarchived2-<%= issue.id %>" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
+                            <div class="w-full max-w-[550px] relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
+                              <div class="px-4 md:px-12 py-5">
+                                <div class="flex justify-between items-center mb-8">
+                                  <h1 class="text-xl font-medium">Send a message</h1>
+                                  <div data-modal-hide="popup-modalarchived2-<%= issue.id %>" class="bg-transparent hover:bg-gray-200 rounded-lg p-1.5 cursor-pointer">
+                                    <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
+                                  </div>
+                                </div>
+                                <%= form_with url: send_message_admins_suggestion_path(issue), method: :post, local: true do |f| %>
+                                  <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
+                                    <div class="w-full">
+                                      <label class="text-sm font-medium text-primary mb-2">E-mail</label>
+                                      <%= f.email_field :email, value: issue.email, class: 'border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 focus:!ring-0', required: true, readonly: true %>
+                                    </div>
+                                    <div class="w-full">
+                                      <label class="text-sm font-medium text-primary mb-2">Message</label>
+                                      <%= f.text_area :message, rows: 3, class: 'border border-gray-2 hover:border-primary resize-none mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2 placeholder:text-secondary focus:outline-transparent focus:ring-0 !outline-none', placeholder: 'Enter your text' , required: true %>
+                                    </div>
+                                  </div>
+                                  <div class="flex justify-end">
+                                    <%= f.submit 'Send a message', data: { modal_hide: "popup-modal3-#{issue.id}" }, class: 'cursor-pointer w-40 h-[34px] flex text-xs font-normal rounded justify-center items-center bg-primary text-white hover:opacity-80' %>
+                                  </div>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </td>
                     </tr>

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include PgSearch::Model
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -15,6 +16,12 @@ class User < ApplicationRecord
   has_many :requests, dependent: :destroy
   has_many :courses, dependent: :destroy
   
+  pg_search_scope :search_by_full_name_and_email_and_phone_number,
+                  against: [:first_name, :last_name, :email, :phone_number],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+
   def generate_otps
     otp_service = OtpService.new(self)
     otp_service.send_phone_otp if phone_number.present?

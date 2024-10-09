@@ -3,6 +3,24 @@ class Admins::SuggestionsController < Admins::BaseController
     @new_courses = Course.pending
     @approved_courses = Course.approved
     @declined_courses = Course.declined
-    @issues = Issue.all
+    @new_issues = Issue.new_issues
+    @archived_issues = Issue.archived_issues
+  end
+
+  def send_message
+    issue = Issue.find(params[:id])
+    email = params[:email]
+    message_content = params[:message]
+
+    otp_service = OtpService.new(issue)
+
+    if otp_service.send_custom_email(email, message_content)
+      issue.update(status: :archived)
+      notice_message = 'Message sent successfully and issue archived.'
+    else
+      notice_message = 'Failed to send message.'
+    end
+
+    redirect_to admins_suggestions_path, notice: notice_message
   end
 end

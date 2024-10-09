@@ -92,6 +92,8 @@ gem "tailwindcss-rails", "~> 2.7"
 
 gem 'letter_opener'
 
+gem 'pg_search'
+
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"

@@ -1,6 +1,7 @@
 class Course < ApplicationRecord
+  include PgSearch::Model
   belongs_to :user
-  has_many :requests
+  has_many :requests, dependent: :destroy
 
   enum status: { pending: 0, approved: 1, declined: 2 }
 
@@ -25,4 +26,13 @@ class Course < ApplicationRecord
       .group('courses.id')
       .order('request_count ASC')
   }
+
+   pg_search_scope :search_by_name_and_user_phone,
+                  against: [:course_name],
+                  associated_against: {
+                    user: [:phone_number]
+                  },
+                  using: {
+                    tsearch: { prefix: true }
+                  }
 end

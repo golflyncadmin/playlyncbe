@@ -25,7 +25,7 @@
     <% end %>
 
     <% if flash[:alert] %>
-      <div id="alert" class="absolute top-24 left-1/2 -translate-x-1/2 bg-red-100 text-red-700 px-4 py-2 rounded mb-4 w-full max-w-[400px]">
+      <div id="alert" class="absolute bottom-4 right-8 bg-red-100 text-red-700 px-4 py-2 rounded mb-4 w-full max-w-[400px]">
         <span><%= flash[:alert] %></span>
         <button class="absolute top-1 right-2 text-xl font-bold text-red-700" onclick="this.parentElement.style.display='none'">&times;</button>
         <!-- Progress bar container -->
