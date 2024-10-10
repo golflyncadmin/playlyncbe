@@ -31,13 +31,13 @@ class Admins::DashboardController < Admins::BaseController
   def send_notifications
     user_ids = params[:user_ids]
     message = params[:message]
-    subject = "New Notification"
-  
+    subject = "App Notification"
+    type = "issue"
     if user_ids.present? && message.present?
       users = User.where(id: user_ids)
   
       users.each do |user|
-        notification_service = NotificationService.new(user, subject, message)
+        notification_service = NotificationService.new(user, subject, message, type)
         notification_service.create_notification
       end
       flash[:notice] = 'Notifications sent successfully.'
