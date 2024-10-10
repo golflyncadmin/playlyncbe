@@ -15,7 +15,7 @@ class Api::V1::CoursesController < Api::ApiController
       error_response("You have already suggested this course at this location", :unprocessable_entity)
     else
       course = current_user.courses.new(course_params)
-      course.status = :unapproved
+      course.status = :pending
 
       if course.save
         success_response('Course suggested successfully (pending approval)', { course: CourseSerializer.new(course) }, :created)

@@ -1,8 +1,9 @@
 class NotificationService
-  def initialize(user, subject, body)
+  def initialize(user, subject, body, type)
     @subject = subject
     @user = user
     @body = body
+    @type = type
   end
 
   # create notification
@@ -74,7 +75,7 @@ class NotificationService
           title: @subject,
           body: @body
         },
-        data: { priority: 'high' }
+        data: { priority: 'high', type: @type }
       }
     }
   end

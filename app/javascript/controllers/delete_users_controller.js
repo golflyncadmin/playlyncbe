@@ -10,10 +10,6 @@ export default class extends Controller {
   deleteSelectedUsers() {
     const selectedUserIds = JSON.parse(this.element.dataset.selectedUserIds);
 
-    if (selectedUserIds.length === 0) {
-      return;
-    }
-
     fetch("/admins/dashboard/delete_users", {
       method: "DELETE",
       headers: {

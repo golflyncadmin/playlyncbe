@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, presence: true, uniqueness: true
-  validates :phone_number, uniqueness: true, presence: true
+  validates :phone_number, uniqueness: true, if: :phone_number
   
   after_create :generate_otps
 

@@ -3,6 +3,7 @@ namespace :notifications do
   task send: :environment do
     puts "Starting notifications task..."
     current_time = Time.now.hour
+    type = 'alerts'
 
     time_slots = {
       7 => { start: 7, end: 11, subject: "Good Morning", body: "Start your day with this update!" },
@@ -22,7 +23,7 @@ namespace :notifications do
         next unless tee_times_in_range
 
         begin
-          notification = NotificationService.new(user, time_slot[:subject], time_slot[:body]).create_notification
+          notification = NotificationService.new(user, time_slot[:subject], time_slot[:body], type).create_notification
           if notification
             otp_service = OtpService.new(user)
             otp_service.send_tee_times_mail
