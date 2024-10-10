@@ -56,14 +56,13 @@
               type="button" 
               data-modal-target="deletepopup-modal" 
               data-modal-toggle="deletepopup-modal" 
-              class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" 
-              onclick="deleteUsers()">
+              class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 py-2 hover:bg-gray-100" >
               <%= image_tag '/assets/svg/delete.svg', alt: '', class: 'ml-3 size-5' %>
               Delete
             </button>
           </li>
           <li>
-            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100" onclick="sendNotifications()">
+            <button type="button" data-modal-target="notificationpopup-modal" data-modal-toggle="notificationpopup-modal" class="w-full flex items-center gap-1.5 text-xs font-normal text-black px-3 border-t border-gray-5 py-2 hover:bg-gray-100">
               <%= image_tag '/assets/svg/notification.svg', alt: '', class: 'ml-3 size-5' %>
               Send in-app notifications
             </button>
@@ -152,21 +151,6 @@
 <%= render '/admins/dashboard/setting_modal' %>
 
 <script>
-  function deleteUsers() {
-    const selectedCheckboxes = document.querySelectorAll('.user-checkbox:checked');
-    const selectedUserIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
-
-    if (selectedUserIds.length === 0) {
-      return;
-    }
-
-    const modalController = document.querySelector('[data-controller="delete-users"]');
-    modalController.dataset.selectedUserIds = JSON.stringify(selectedUserIds);
-
-    const modal = document.getElementById("deletepopup-modal");
-    modal.classList.remove("hidden");
-  }
-
   document.addEventListener("DOMContentLoaded", function() {
     const selectAllCheckbox = document.getElementById("select-all");
     const userCheckboxes = document.querySelectorAll(".user-checkbox");

@@ -18,10 +18,42 @@
           data-modal-hide="deletepopup-modal" 
           type="button" 
           class="w-full text-xs/[18px] font-normal py-2 text-black text-center border border-primary hover:text-white hover:bg-primary rounded transition-all" 
-          data-action="delete-users#deleteSelectedUsers">
+          onclick=deleteUsers()>
           Delete
         </button>
       </div>
     </div>
   </div>
 </div>
+<script>
+function deleteUsers() {
+    const selectedCheckboxes = document.querySelectorAll('.user-checkbox:checked');
+    const selectedUserIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
+
+    const modalController = document.querySelector('[data-controller="delete-users"]');
+    modalController.dataset.selectedUserIds = JSON.stringify(selectedUserIds);
+
+    deleteSelectedUsers();
+}
+
+  function deleteSelectedUsers() {
+      const selectedUserIds = JSON.parse(document.querySelector('[data-controller="delete-users"]').dataset.selectedUserIds);
+
+      fetch("/admins/dashboard/delete_users", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+        },
+        body: JSON.stringify({ user_ids: selectedUserIds })
+      }).then(response => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          console.error('Failed to delete users');
+        }
+      }).catch(error => {
+        console.error('Error during delete:', error);
+      });
+  }
+</script>
