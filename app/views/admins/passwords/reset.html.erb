@@ -10,6 +10,7 @@
       <p class="text-sm font-normal text-center text-secondary mb-6">Enter the email address you used to register with. This will send you a new 
         email that will link you to the password change website. </p>
       <%= form_with url: resend_admin_reset_password_path, method: :post do |f| %>
+        <%= hidden_field_tag :email, params[:email] %>
         <div class="flex items-center justify-center relative mb-6">
           <svg class="rotate-[-90deg]" width="120" height="120" viewBox="0 0 120 120">
             <defs>
