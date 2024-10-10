@@ -102,3 +102,4 @@ group :test do
 end
 
 gem 'will_paginate'
+gem 'roo'
