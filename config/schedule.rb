@@ -1,3 +1,4 @@
+#cron job
 set :output, "log/cron_log.log"
 
 (7..18).each do |hour|

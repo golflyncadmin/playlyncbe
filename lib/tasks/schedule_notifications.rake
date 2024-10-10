@@ -1,5 +1,5 @@
 namespace :notifications do
-  desc "Send scheduled notifications"
+  desc "Send scheduled push notifications"
   task send: :environment do
     puts "Starting notifications task..."
     current_hour = Time.now.hour
