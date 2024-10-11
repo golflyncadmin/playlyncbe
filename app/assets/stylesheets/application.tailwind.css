@@ -119,42 +119,73 @@ input[type="checkbox"]:checked {
 }
 .pagination{
   margin-top: 30px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .current{
   background-color:#D5ECFB !important ;
   border-radius: 4px;
   padding: 6px;
   margin: 4px;
-}
-.previous_page{
-  color: white;
-  margin-right: 20px !important; 
-}
-.next_page{
-  color: white;
-  margin-left: 20px !important;
+  color: black !important;
 }
 .next{
   margin: 4px !important ;
 }
 .previous_page::after {
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-    content: '' !important; 
-    margin-right: 8px; 
+  content: '' !important; 
+  margin-right: 8px; 
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: none !important;
 }
 
 .next_page::before {
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
     content: '' !important; 
     margin-right: 8px; 
+    width: 100%;
+    height: 100%;
+    color: white;
+    display: none !important;
+    
+}
+
+.pagination span,
+.pagination em,
+.pagination a,
+.pagination a:last-child {
+  padding: 2px 8px;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  background-color: #FFFFFF;
+  color: grey;
+}
+
+.pagination .previous_page{
+  color: transparent !important;
+  margin-right: 20px !important; 
+  width: 24px;
+  height: 24px;
+  background-image: url("assets/svg/left_arrow.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.pagination .next_page{
+  color: transparent !important;
+  margin-left: 20px !important;
+  width: 24px;
+  height: 24px;
+  background-image: url("assets/svg/right_arrow.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.field_with_errors {
+  width: 100%;
+  max-width: 380px;
 }

@@ -52,8 +52,8 @@
       <% if @courses.any? %>
         <tfoot>
           <tr>
-            <td colspan="2" class="p-3 text-sm font-normal text-black text-center">
-              <%= will_paginate @courses, renderer: WillPaginate::ActionView::LinkRenderer, previous_label: 'Previous', next_label: 'Next' %>
+            <td colspan="2" class="p-3 text-sm font-normal text-black text-center" >
+              <%= will_paginate @courses, renderer: WillPaginate::ActionView::LinkRenderer%>
             </td>
           </tr>
         </tfoot>
