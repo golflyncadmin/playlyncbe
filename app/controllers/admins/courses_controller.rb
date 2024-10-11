@@ -6,14 +6,11 @@ class Admins::CoursesController < Admins::BaseController
                else
                  case params[:filter]
                  when "frequently"
-                   Course.frequently_booked
+                  Course.frequently_booked
                  when "recently"
-                   Course.includes(:user).recently_searched
+                  Course.includes(:user).recently_searched
                  else
-                   Course.includes(:user)
-                         .select("DISTINCT ON (courses.course_name) courses.*, users.phone_number")
-                         .joins(:user)
-                         .order("courses.course_name ASC, courses.created_at DESC")
+                  Course.order(created_at: :desc)
                  end
                end
 
