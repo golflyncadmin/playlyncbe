@@ -7,4 +7,8 @@ class Admin < ApplicationRecord
   validates :full_name, presence: true,
                         format: { with: /\A[A-Za-z][A-Za-z\s]*\z/, message: "must start with letter" },
                         length: { maximum: 25 }
+
+	def send_reset_password_instructions
+		set_reset_password_token
+	end
 end
