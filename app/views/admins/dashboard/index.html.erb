@@ -36,15 +36,15 @@
     </div>
   </div>
 </div>
-<div class="bg-white w-full p-3 sm:p-5">
-  <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-lg:flex-wrap">
+<div class="bg-white w-full py-3 px-5 sm:p-5">
+  <div class="flex justify-between gap-4 border-b border-gray-2 pb-5 max-md:flex-col max-xl:flex-wrap">
     <%= render '/admins/dashboard/calender' %>
-    <div class="flex gap-2.5 md:gap-5 justify-end h-fit w-full">
-      <%= form_with url: admins_dashboard_index_path, method: :get, local: true, class: "max-w-[373px] w-full relative h-fit" do |f| %>
+    <div class="flex max-md:flex-wrap gap-2.5 md:gap-5 justify-start md:justify-end h-fit w-full">
+      <%= form_with url: admins_dashboard_index_path, method: :get, local: true, class: "md:max-w-[373px] w-full relative h-fit" do |f| %>
         <%= f.text_field :search, placeholder: "Search", class: "pl-11 w-full !border-gray-2 border rounded-full focus:!border-primary hover:!border-primary focus:ring-0" %>
         <%= image_tag '/assets/svg/search.svg', alt: '', class: 'absolute top-3 left-3 size-5' %>
       <% end %>
-      <button type="button" class="h-fit flex px-3 py-2.5 items-center text-sm font-medium hover:border-primary text-black border border-gray-2 rounded w-full max-w-[133px]" aria-expanded="false" id="dropdownActionsButton" data-dropdown-toggle="dropdownActions">
+      <button type="button" class="h-fit flex px-3 py-2.5 items-center text-sm font-medium hover:border-primary text-black border border-gray-2 rounded w-full sm:max-w-[133px]" aria-expanded="false" id="dropdownActionsButton" data-dropdown-toggle="dropdownActions">
         <%= image_tag '/assets/svg/setting.svg', alt: '', class: 'mr-2 size-5' %>
         Actions
         <%= image_tag '/assets/svg/arrowdown.svg', alt: '', class: 'ml-3 size-5' %>
@@ -78,7 +78,7 @@
           <th class="p-3 text-left text-sm font-medium text-black">
             <input type="checkbox" id="select-all" class="rounded !border !border-gray-2 size-4 cursor-pointer !appearance-none checked:!bg-primary checked:!border-primary focus:!outline-none focus:ring-0 transition"/>
           </th>
-          <th class="p-3 text-left text-sm font-medium text-black max-sm:min-w-[150px]">
+          <th class="p-3 text-left text-sm font-medium text-black max-lg:min-w-[170px]">
             Name
           </th>
           <th class="p-3 text-left text-sm font-medium text-black">
