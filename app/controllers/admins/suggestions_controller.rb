@@ -16,11 +16,11 @@ class Admins::SuggestionsController < Admins::BaseController
 
     if otp_service.send_custom_email(email, message_content)
       issue.update(status: :archived)
-      notice_message = 'Message sent successfully and issue archived.'
+      flash[:notice] = 'Message sent successfully.'
     else
-      notice_message = 'Failed to send message.'
+      flash[:alert] = 'Failed to send message.'
     end
 
-    redirect_to admins_suggestions_path, notice: notice_message
+    redirect_to admins_suggestions_path
   end
 end
