@@ -1,7 +1,7 @@
 class Admins::SuggestionsController < Admins::BaseController
   def index
     @new_courses = Course.pending
-    @approved_courses = Course.approved
+    @approved_courses = Course.admin_approved
     @declined_courses = Course.declined
     @new_issues = Issue.new_issues
     @archived_issues = Issue.archived_issues

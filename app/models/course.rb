@@ -3,13 +3,14 @@ class Course < ApplicationRecord
   belongs_to :user
   has_many :requests, dependent: :destroy
 
-  enum status: { pending: 0, approved: 1, declined: 2 }
+  enum status: { pending: 0, approved: 1, declined: 2, admin_approved: 3 }
 
   validates :course_name, :course_location, presence: true
 
   scope :pending, -> { where(status: "pending").order(created_at: :desc) }
   scope :approved, -> { where(status: "approved").order(created_at: :desc) }
   scope :declined, -> { where(status: "declined").order(created_at: :desc) }
+  scope :admin_approved, -> { where(status: "admin_approved").order(created_at: :desc) }
 
   scope :frequently_booked, -> {
     joins(:requests)
