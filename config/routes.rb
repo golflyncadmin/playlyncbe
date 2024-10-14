@@ -12,6 +12,12 @@ Rails.application.routes.draw do
       post :send_message, on: :member
     end
 
+    resources :users, only: [] do
+      collection do
+        get :check_email
+      end
+    end
+
     resources :dashboard, only: [:index] do
       collection do
         delete :delete_users

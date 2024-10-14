@@ -33,7 +33,14 @@ class Admins::DashboardController < Admins::BaseController
     message = params[:message]
     subject = "App Notification"
     type = "issue"
-    if user_ids.present? && message.present?
+
+    if user_ids.blank? && message.blank?
+      flash[:alert] = 'No users selected and message is empty.'
+    elsif user_ids.blank?
+      flash[:alert] = 'No users selected.'
+    elsif message.blank?
+      flash[:alert] = 'Message is empty.'
+    else
       users = User.where(id: user_ids)
   
       users.each do |user|
@@ -41,8 +48,6 @@ class Admins::DashboardController < Admins::BaseController
         notification_service.create_notification
       end
       flash[:notice] = 'Notifications sent successfully.'
-    else
-      flash[:alert] = 'No users selected or message is empty.'
     end
     redirect_to admins_dashboard_index_path, status: :ok
   end  

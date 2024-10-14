@@ -7,11 +7,12 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field mb-4">
         <%= f.label :email , class: "text-xs font-normal text-secondary mb-2 block" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "email-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3" %>
+        <div id="email-error-message" class="hidden text-xs text-red-600 mt-1">This email is not registered in the system.</div>
       </div>
       <div class="field mb-5 relative">
         <%= f.label :password , class: "text-xs font-normal text-secondary mb-2 block" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3" %>
         <div class="absolute top-[39px] right-3.5 cursor-pointer">
           <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'togglePassword1' %>
         </div>
@@ -26,7 +27,7 @@
         </div>
       <% end %>
       <div class="actions">
-        <%= f.submit "Log in", class: "py-3 w-full mb-6 rounded text-white text-sm font-medium hover:border-transparent bg-primary hover:opacity-80 transition-all cursor-pointer" %>
+        <%= f.submit "Log in", class: "submit-button py-3 w-full mb-6 rounded text-white text-sm font-medium hover:border-transparent bg-primary hover:opacity-80 transition-all cursor-pointer", disabled: true %>
       </div>
       <div class="flex justify-center gap-2">
         <p class="text-xs font-normal text-typo">Don’t have an account?</p>
@@ -36,9 +37,52 @@
   </div>
 </div>
 
-
 <script>
-  const passwordFields = document.querySelectorAll(".password-field");
-const toggleButtons = document.querySelectorAll(".toggle-password");
+  const emailField = document.querySelector(".email-field");
+  const passwordField = document.querySelector(".password-field");
+  const submitButton = document.querySelector(".submit-button");
+  const emailErrorMessage = document.getElementById("email-error-message");
 
-  </script>
+  function toggleButtonState() {
+    const emailIsEmpty = emailField.value.trim() === "";
+    const passwordIsEmpty = passwordField.value.trim() === "";
+
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-50", "cursor-not-allowed");
+
+    if (!emailIsEmpty) {
+      checkEmail(emailField.value);
+    } else {
+      emailErrorMessage.classList.add("hidden");
+    }
+  }
+
+  function checkEmail(email) {
+    fetch(`/admins/users/check_email?email=${encodeURIComponent(email)}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.exists) {
+          emailErrorMessage.classList.add("hidden");
+          if (passwordField.value.trim() !== "") {
+            submitButton.disabled = false;
+            submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+          }
+        } else {
+          emailErrorMessage.classList.remove("hidden");
+          submitButton.disabled = true;
+          submitButton.classList.add("opacity-50", "cursor-not-allowed");
+        }
+      })
+      .catch(error => console.error('Error checking email:', error));
+  }
+
+  emailField.addEventListener("input", toggleButtonState);
+  passwordField.addEventListener("input", toggleButtonState);
+
+  document.addEventListener("DOMContentLoaded", toggleButtonState);
+</script>
