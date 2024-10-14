@@ -16,31 +16,22 @@
         <%= f.email_field :email, placeholder: 'Enter your email', autofocus: true, autocomplete: "email" , class: "border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3" %>
       </div>
       <div class="field mb-4 relative">
-        <%= f.label :password , class: 'text-xs font-normal text-secondary mb-2 block' %>
-        <% if @minimum_password_length %>
-          <%# <em>(<%= @minimum_password_length characters minimum)</em> %>
-        <% end %>
-        <%= f.password_field :password, placeholder: 'Enter your password', autocomplete: "new-password" , class: 'password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3' %>
+        <%= f.label :password, class: 'text-xs font-normal text-secondary mb-2 block' %>
+        <%= f.password_field :password, placeholder: 'Enter your password', autocomplete: "new-password", class: 'password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3' %>
         <div class="absolute top-[39px] right-3.5 cursor-pointer">
-          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'togglePassword1' %>
+          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4', id: 'togglePassword1' %>
         </div>
+        <p class="text-xs text-red-500 mt-1 hidden" id="password-validation-message">Weak password</p>
       </div>
       <div class="field relative mb-5">
         <%= f.label :password_confirmation , class: 'text-xs font-normal text-secondary mb-2 block' %>
         <%= f.password_field :password_confirmation, placeholder: 'Enter your confirm password', autocomplete: "new-password" , class: 'password-field border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary block w-full px-3 py-3' %>
         <div class="absolute top-[39px] right-3.5 cursor-pointer">
-          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'id="togglePassword2"' %>
+          <%= image_tag '/assets/svg/Eye-icon.svg', alt: '', class: 'toggle-password size-4' , id: 'togglePassword2' %>
         </div>
       </div>
-      <div class="flex gap-2 mb-8 items-center">
-        <input id="condition" type="checkbox" class="rounded border border-primary size-4 cursor-pointer text-primary appearance-none checked:bg-primary checked:border-primary focus:outline-none transition">
-        <label for="condition" class="cursor-pointer text-xs font-normal text-gray-4">
-          I agree to the
-          <span class="text-xs font-semibold text-primary underline underline-offset-2">Terms and Conditions</span>
-        </label>
-      </div>
       <div class="actions">
-        <%= f.submit "Sign up" , class: 'py-3 w-full mb-6 rounded text-white text-sm font-medium hover:opacity-80 bg-primary transition-all cursor-pointer' %>
+        <%= f.submit "Sign up" , class: 'py-3 w-full mb-6 rounded text-white text-sm font-medium hover:opacity-80 bg-primary transition-all cursor-pointer opacity-50 cursor-not-allowed', disabled: true %>
       </div>
     <% end %>
     <div class="flex justify-center gap-2 items-center">
@@ -51,3 +42,50 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const passwordField = document.querySelector('.password-field');
+    const validationMessage = document.getElementById('password-validation-message');
+    const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+    const submitButton = document.querySelector('input[type="submit"]');
+
+    function validatePassword(password) {
+      if (password.trim() === "") {
+        validationMessage.classList.add("hidden");
+        return true;
+      }
+
+      const weakPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{0,7}$/; // At least one lowercase, one uppercase, one digit, and max 7 characters
+      const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // At least one lowercase, one uppercase, one digit, one special character, and at least 8 characters
+
+      if (strongPattern.test(password)) {
+        validationMessage.classList.add("hidden");
+        return true;
+      } else {
+        validationMessage.classList.remove("hidden");
+        validationMessage.textContent = "Weak password";
+        return false;
+      }
+    }
+
+    function toggleButtonState() {
+      const passwordIsStrong = validatePassword(passwordField.value);
+      const allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
+
+      submitButton.disabled = !allFilled || !passwordIsStrong;
+      submitButton.classList.toggle("opacity-50", submitButton.disabled);
+      submitButton.classList.toggle("cursor-not-allowed", submitButton.disabled);
+    }
+
+    inputs.forEach(input => {
+      input.addEventListener('input', toggleButtonState);
+    });
+
+    passwordField.addEventListener('input', function() {
+      validatePassword(passwordField.value);
+      toggleButtonState();
+    });
+
+    toggleButtonState();
+  });
+</script>
