@@ -10,10 +10,10 @@
       <%= render "admins/shared/error_messages", resource: resource %>
       <div class="field mb-6">
         <%= f.label :email , class:'text-xs font-normal text-secondary mb-2 block' %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" , class: 'border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" , class: 'border border-gray-2 hover:border-primary focus:ring-0 bg-gray-3 mt-2 rounded-md !outline-none text-sm placeholder-secondary  block w-full px-3 py-3', id: 'email-field' %>
       </div>
       <div class="actions mb-6">
-        <%= f.submit "Reset password" , class: 'py-3 w-full rounded-md text-white text-sm font-medium hover:opacity-80 bg-primary transition-all cursor-pointer' %>
+        <%= f.submit "Reset password" , class: 'py-3 w-full rounded-md text-white text-sm font-medium hover:opacity-80 bg-primary transition-all cursor-pointer', id: 'reset-password-button', disabled: true %>
       </div>
       <div class="flex justify-center gap-2">
         <p class="text-xs font-normal text-typo">Have an account?</p>
@@ -22,3 +22,34 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  const emailField = document.getElementById('email-field');
+  const submitButton = document.getElementById('reset-password-button');
+
+  function toggleButtonState() {
+    const emailIsEmpty = emailField.value.trim() === "";
+
+    submitButton.disabled = emailIsEmpty;
+    submitButton.classList.toggle("opacity-50", submitButton.disabled);
+    submitButton.classList.toggle("cursor-not-allowed", submitButton.disabled);
+
+    if (!emailIsEmpty) {
+      checkEmail(emailField.value);
+    }
+  }
+
+  function checkEmail(email) {
+    fetch(`/check_email?email=${encodeURIComponent(email)}`)
+      .then(response => response.json())
+      .then(data => {
+        submitButton.disabled = !data.exists;
+        submitButton.classList.toggle("opacity-50", submitButton.disabled);
+        submitButton.classList.toggle("cursor-not-allowed", submitButton.disabled);
+      })
+      .catch(error => console.error('Error checking email:', error));
+  }
+
+  emailField.addEventListener("input", toggleButtonState);
+  document.addEventListener("DOMContentLoaded", toggleButtonState);
+</script>
