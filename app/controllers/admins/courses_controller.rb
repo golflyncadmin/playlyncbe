@@ -18,12 +18,12 @@ class Admins::CoursesController < Admins::BaseController
   end
 
   def approve
-    @course.update(status: "approved")
+    @course.update(status: :admin_approved)
     redirect_to admins_suggestions_path, notice: 'Suggestion approved successfully.'
   end
 
   def reject
-    @course.update(status: "declined")
+    @course.update(status: :declined)
     redirect_to admins_suggestions_path, alert: 'Suggestion rejected successfully.'
   end
 
