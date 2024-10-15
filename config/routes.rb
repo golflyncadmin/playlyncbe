@@ -10,6 +10,18 @@ Rails.application.routes.draw do
   namespace :admins do
     resources :suggestions, only: [:index] do
       post :send_message, on: :member
+      collection do
+        get :new_request
+        get :approved
+        get :declined
+      end
+    end
+
+    resources :problems, only: [:index] do
+      collection do
+        get :new_issues
+        get :archived
+      end
     end
 
     resources :users, only: [] do
