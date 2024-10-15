@@ -62,7 +62,7 @@ class OtpService
     sns.publish(phone_number: phone_number, message: message)
     puts "#{type.capitalize} SMS sent successfully"
   rescue Aws::SNS::Errors::ServiceError => e
-    puts "Failed to send SMS #{type.capitalize}: #{e.message}"
+    puts "Failed to send SMS #{type.capitalize}: #{e.message} : #{@user.email}"
   end
 
   def send_email(email:, type:, otp: nil, user_name: nil, custom_message: nil)

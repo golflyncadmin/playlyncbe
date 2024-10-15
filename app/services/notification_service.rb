@@ -8,19 +8,17 @@ class NotificationService
 
   # create notification
   def create_notification
-    response = send_notification
-    if response
-      response.each do |resp|
-        Notification.create!(user_id: @user.id, subject: @subject, body: @body)
-      end
+    if send_notification
+      Notification.create!(user_id: @user.id, subject: @subject, body: @body)
     end
   end
 
   def send_notification
     mobile_tokens = fetch_mobile_tokens
     return false unless mobile_tokens.present?
-    
-    mobile_tokens.map { |token| send_push_notification(token) }
+
+    responses = mobile_tokens.map { |token| send_push_notification(token) }
+    responses.any?
   rescue StandardError => e
     puts "Notification sending failed for user #{@user.id}, exception #{e}"
     false
