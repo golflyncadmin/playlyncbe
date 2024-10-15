@@ -1,14 +1,14 @@
 <div class="p-3 sm:p-5">
   <div class="">
     <div class="mb-6 max-w-[240px] w-full">
-      <ul class="flex text-sm font-semibold text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-sm font-semibold !text-primary hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 !border-primary dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent !text-secondary hover:text-gray-600 dark:text-gray-400 border-gray-100 !hover:border-primary dark:border-gray-700 dark:hover:text-gray-300">
+      <ul class="flex text-sm font-semibold text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-sm font-semibold !text-primary !border-primary" data-tabs-inactive-classes=" !text-secondary !hover:border-primary">
   
         <li class="me-2" role="presentation">
           <%= link_to 'Suggestions', new_request_admins_suggestions_path, class: 'inline-block p-4 border-b-[3px] rounded-t-lg', role: 'tab', id: 'Suggestions-tab', data: { tabs_target: '#Suggestions', toggle: 'tab' }, aria: { controls: 'Suggestions', selected: 'false' } %>
         </li>
 
         <li class="me-2" role="presentation">
-          <%= link_to 'Problems', new_issues_admins_problems_path, class: 'inline-block p-4 border-b-[3px] rounded-t-lg text-secondary hover:!text-secondary' %>
+          <%= link_to 'Problems', new_issues_admins_problems_path, class: 'inline-block p-4 border-b-[3px] rounded-t-lg !text-secondary hover:!text-secondary' %>
         </li>
       </ul>
     </div>
@@ -33,10 +33,10 @@
               <table class="min-w-full bg-white">
                 <thead class="bg-[#E8F6FF]">
                   <tr>
-                    <th class="text-left p-3 text-black text-sm font-medium rounded-l-md">E-mail</th>
-                    <th class="text-left p-3 text-black text-sm font-medium">Course Name</th>
-                    <th class="text-left p-3 text-black text-sm font-medium">Location</th>
-                    <th class="text-left p-3 text-black text-sm font-medium rounded-r-md">Actions</th>
+                    <th class="text-left p-3 text-black text-sm font-medium rounded-l-md md:min-w-[250px]">E-mail</th>
+                    <th class="text-left p-3 text-black text-sm font-medium md:min-w-[250px]">Course Name</th>
+                    <th class="text-left p-3 text-black text-sm font-medium md:min-w-[250px]">Location</th>
+                    <th class="text-left p-3 text-black text-sm font-medium rounded-r-md md:min-w-[250px]">Actions</th>
                   </tr>
                 </thead>
                 <tbody class="text-sm font-normal text-typo">

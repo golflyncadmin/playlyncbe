@@ -62,8 +62,8 @@
         return true;
       }
 
-      const weakPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{0,7}$/; // At least one lowercase, one uppercase, one digit, and max 7 characters
-      const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // At least one lowercase, one uppercase, one digit, one special character, and at least 8 characters
+      const weakPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{0,7}$/;
+      const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
       if (strongPattern.test(password)) {
         validationMessage.classList.add("hidden");
