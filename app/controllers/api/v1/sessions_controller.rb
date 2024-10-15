@@ -18,6 +18,7 @@ class Api::V1::SessionsController < Api::ApiController
   def logout
     if @user
       @user.update(updated_at: Time.now)
+      @user.mobile_devices.destroy_all
       success_response('User logged out successfully', {}, :ok)
     else
       error_response('No user found agains this email.', :unauthorized)
