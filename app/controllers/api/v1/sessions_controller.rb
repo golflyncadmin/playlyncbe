@@ -11,7 +11,7 @@ class Api::V1::SessionsController < Api::ApiController
     end
 
   rescue StandardError => e
-    error_response('An error occurred during login', :internal_server_error)
+    error_response("An error occurred during login #{e}", :internal_server_error)
   end
 
   # Destroy user session
