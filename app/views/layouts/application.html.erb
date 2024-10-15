@@ -37,7 +37,7 @@
       </div>
     <% end %>
 
-    <% if %w[dashboard courses settings suggestions].include?(controller_name) %>
+    <% if %w[dashboard courses settings suggestions problems].include?(controller_name) %>
       <%= render 'layouts/sidebar' %>
       <main class="ml-0 md:!ml-[220px] bg-white">
         <%= render 'layouts/header' %>

@@ -1,0 +1,104 @@
+<div class="p-3 sm:p-5">
+  <div class="">
+    <div class="mb-6 max-w-[240px] w-full">
+      <ul class="flex text-sm font-semibold text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist" data-tabs-toggle="#default-styled-tab-content" data-tabs-active-classes="text-sm font-semibold !text-primary hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 !border-primary dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent !text-secondary hover:text-gray-600 dark:text-gray-400 border-gray-100 !hover:border-primary dark:border-gray-700 dark:hover:text-gray-300">
+  
+        <li class="me-2" role="presentation">
+          <%= link_to 'Suggestions', new_request_admins_suggestions_path, class: 'inline-block p-4 border-b-[3px] rounded-t-lg', role: 'tab', id: 'Suggestions-tab', data: { tabs_target: '#Suggestions', toggle: 'tab' }, aria: { controls: 'Suggestions', selected: 'false' } %>
+        </li>
+
+        <li class="me-2" role="presentation">
+          <%= link_to 'Problems', new_issues_admins_problems_path, class: 'inline-block p-4 border-b-[3px] rounded-t-lg text-secondary hover:!text-secondary' %>
+        </li>
+      </ul>
+    </div>
+    <div id="default-tab-content">
+      <div id="Suggestions" role="tabpanel" aria-labelledby="Suggestions-tab">
+        <div class="mb-3 px-3 py-2 bg-[#F6F6F6] rounded-md w-full">
+          <ul class="flex gap-4 text-xs font-semibold text-center" id="inner-tab" data-tabs-toggle="#inner-tab-content" role="tablist">
+            <li role="presentation">
+              <%= link_to 'New Requests', new_request_admins_suggestions_path, class: 'inline-block', role: 'tab' %>
+            </li>
+            <li role="presentation">
+              <%= link_to 'Approved', approved_admins_suggestions_path, class: 'inline-block text-secondary hover:!text-secondary', role: 'tab' %>
+            </li>
+            <li role="presentation">
+              <%= link_to 'Declined', declined_admins_suggestions_path, class: 'inline-block text-secondary hover:!text-secondary', role: 'tab' %>
+            </li>
+          </ul>
+        </div>
+        <div id="inner-tab-content">
+          <div id="Requests" role="tabpanel" aria-labelledby="Requests-tab">
+            <div class="overflow-x-auto scrollbar">
+              <table class="min-w-full bg-white">
+                <thead class="bg-[#E8F6FF]">
+                  <tr>
+                    <th class="text-left p-3 text-black text-sm font-medium rounded-l-md">E-mail</th>
+                    <th class="text-left p-3 text-black text-sm font-medium">Course Name</th>
+                    <th class="text-left p-3 text-black text-sm font-medium">Location</th>
+                    <th class="text-left p-3 text-black text-sm font-medium rounded-r-md">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm font-normal text-typo">
+                  <% @new_courses.each do |course| %>
+                    <tr class="border-b border-gray-2">
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.user.email %></td>
+                      <td class="whitespace-nowrap py-4 px-3"><%= course.course_name %></td>
+                      <td class="py-4 px-3">
+                        <p class="line-clamp-1 max-w-[600px] w-full">
+                          <%= course.course_location %>
+                        </p>
+                      </td>
+                      <td class="py-4 px-3 flex items-center gap-3">
+                        <%= button_to 'Approve', approve_admins_course_path(course), method: :patch, class: '!text-white text-xs font-normal flex items-center px-4 py-1 !bg-primary hover:opacity-80 rounded focus:outline-none cursor-pointer' %>
+                        <div id="popup-modal<%= course.id %>" tabindex="-1" class="fixed hidden bg-black px-5 md:px-0 bg-opacity-50 inset-0 justify-center items-center z-50">
+                          <div class="w-full max-w-[550px] h-fit relative mx-auto bg-white rounded shadow-[0px_0px_12px_0px_#0000001F]">
+                            <div class="px-4 md:px-12 py-5">
+                              <div class="flex justify-between items-center mb-8">
+                                <h1 class="text-xl font-medium">View suggestion</h1>
+                                <div data-modal-hide="popup-modal<%= course.id %>" class="bg-transparent hover:bg-gray-200 rounded-lg p-1.5 cursor-pointer">
+                                  <%= image_tag '/assets/svg/close.svg', alt: '', class: 'size-6' %>
+                                </div>
+                              </div>
+                              <div class="flex flex-col gap-y-4 mb-4 lg:mb-8">
+                                <div class="w-full">
+                                  <label class="text-sm font-medium text-primary mb-2">E-mail</label>
+                                  <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                    <%= course.user.email %>
+                                  </div>
+                                </div>
+                                <div class="w-full">
+                                  <label class="text-sm font-medium text-primary mb-2">Topic</label>
+                                  <div class="border border-gray-2 mt-2 rounded text-sm font-normal text-black block w-full px-3 py-2">
+                                    <%= course.course_name %>
+                                  </div>
+                                </div>
+                                <div class="w-full">
+                                  <label class="text-sm font-medium text-primary mb-2">Description</label>
+                                  <div class="line-clamp-6 whitespace-normal min-h-20 border border-gray-2 break-all mt-2 rounded text-sm font-normal text-typo block w-full px-3 py-2">
+                                    <%= course.course_location %>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="flex justify-end">
+                                <%= button_to 'Approve', approve_admins_course_path(course), method: :patch, class: 'w-28 py-2 flex text-xs font-normal rounded justify-center items-center bg-primary text-white cursor-pointer' %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <%= button_to 'Reject', reject_admins_course_path(course), method: :patch, class: 'text-black text-xs font-normal flex items-center px-4 py-1 border border-primary rounded hover:bg-primary hover:text-white focus:outline-none cursor-pointer transition-all' %>
+                        <div class="size-6 cursor-pointer" data-modal-target="popup-modal<%= course.id %>" data-modal-toggle="popup-modal<%= course.id %>">
+                          <%= image_tag '/assets/svg/mdi_eye.svg', alt: '', class: '' %>
+                        </div>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

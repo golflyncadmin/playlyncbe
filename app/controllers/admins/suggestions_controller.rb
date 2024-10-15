@@ -1,10 +1,14 @@
 class Admins::SuggestionsController < Admins::BaseController
-  def index
+  def new_request
     @new_courses = Course.pending
+  end
+
+  def approved
     @approved_courses = Course.admin_approved
+  end
+
+  def declined
     @declined_courses = Course.declined
-    @new_issues = Issue.new_issues
-    @archived_issues = Issue.archived_issues
   end
 
   def send_message
@@ -12,6 +16,11 @@ class Admins::SuggestionsController < Admins::BaseController
     email = params[:email]
     message_content = params[:message]
 
+    if message_content.blank?
+      flash[:alert] = 'Message content cannot be empty.'
+      return redirect_to new_issues_admins_problems_path
+    end
+  
     otp_service = OtpService.new(issue)
 
     if otp_service.send_custom_email(email, message_content)
@@ -21,6 +30,6 @@ class Admins::SuggestionsController < Admins::BaseController
       flash[:alert] = 'Failed to send message.'
     end
 
-    redirect_to admins_suggestions_path
+    redirect_to new_issues_admins_problems_path
   end
 end
