@@ -20,7 +20,7 @@
         <% end %>
       </li>
       <li class="">
-        <%= link_to admins_suggestions_path, class: " flex gap-4 items-center px-4 py-2 text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all #{active_tab_class(admins_suggestions_path)} " do %>
+        <%= link_to new_request_admins_suggestions_path, class: " flex gap-4 items-center px-4 py-2 text-sm font-medium text-black/40 hover:bg-white/40 hover:text-dark-blue transition-all #{active_tab_class(new_request_admins_suggestions_path)} #{active_tab_class(new_issues_admins_problems_path)} #{active_tab_class(approved_admins_suggestions_path)} #{active_tab_class(declined_admins_suggestions_path)} #{active_tab_class(new_issues_admins_problems_path)} #{active_tab_class(archived_admins_problems_path)}" do %>
           <%= image_tag '/assets/svg/suggest.svg', alt: '', class: 'size-5' %>
           Suggestions and problems
         <% end %>

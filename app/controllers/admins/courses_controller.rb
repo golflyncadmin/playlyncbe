@@ -19,20 +19,20 @@ class Admins::CoursesController < Admins::BaseController
 
   def approve
     @course.update(status: :admin_approved)
-    redirect_to admins_suggestions_path, notice: 'Suggestion approved successfully.'
+    redirect_to approved_admins_suggestions_path, notice: 'Suggestion approved successfully.'
   end
 
   def reject
     @course.update(status: :declined)
-    redirect_to admins_suggestions_path, alert: 'Suggestion rejected successfully.'
+    redirect_to declined_admins_suggestions_path, alert: 'Suggestion rejected successfully.'
   end
 
   def destroy
     if @course
       @course.destroy
-      redirect_to admins_suggestions_path, alert: 'Suggestion deleted successfully.'
+      redirect_to declined_admins_suggestions_path, alert: 'Suggestion deleted successfully.'
     else
-      redirect_to admins_suggestions_path, alert: 'Something went wrong.'
+      redirect_to new_request_admins_suggestions_path, alert: 'Something went wrong.'
     end
   end
 
