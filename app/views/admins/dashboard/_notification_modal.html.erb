@@ -14,34 +14,9 @@
         type="button"
         class="ml-auto block w-fit text-xs/[18px] font-normal py-2 px-8 text-white text-center !bg-primary rounded hover:opacity-80 transition-all"
         data-modal-hide="notificationpopup-modal"
-        data-controller="notification" data-action="click->notification#sendNotification" onclick=sendNotification()>
+        data-controller="notification" data-action="click->notification#sendNotification">
         Send a message
       </button>
     </div>
   </div>
 </div>
-
-<script>
-  function sendNotification() {
-    const selectedCheckboxes = document.querySelectorAll('.user-checkbox:checked');
-    const selectedUserIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.id);
-
-
-    const messageTextarea = document.getElementById("message");
-    const message = messageTextarea.value.trim();
-
-    fetch("/admins/dashboard/send_notifications", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-      },
-      body: JSON.stringify({ user_ids: selectedUserIds, message: message })
-    }).then(response => {
-      if (response.ok) {
-        messageTextarea.value = '';
-        window.location.reload();
-      }
-    });
-}
-</script>
