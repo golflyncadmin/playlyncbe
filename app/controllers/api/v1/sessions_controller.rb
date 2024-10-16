@@ -1,5 +1,6 @@
 class Api::V1::SessionsController < Api::ApiController
   before_action :find_user
+  before_action :authorize_request, only: [:logout]
 
   # Sign In user
   def login
@@ -11,16 +12,21 @@ class Api::V1::SessionsController < Api::ApiController
     end
 
   rescue StandardError => e
-    error_response('An error occurred during login', :internal_server_error)
+    error_response("An error occurred during login #{e}", :internal_server_error)
   end
 
   # Destroy user session
   def logout
     if @user
-      @user.update(updated_at: Time.now)
-      success_response('User logged out successfully', {}, :ok)
+      token = params[:fcm_token]
+      if token && @user.mobile_devices.exists?(mobile_token: token)
+        @user.mobile_devices.find_by(mobile_token: token).destroy
+        success_response('User logged out from this device successfully', {}, :ok)
+      else
+        error_response('Device not found or token missing.', :unauthorized)
+      end
     else
-      error_response('No user found agains this email.', :unauthorized)
+      error_response('No user found against this email.', :unauthorized)
     end
   end
 
