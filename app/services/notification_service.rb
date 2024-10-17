@@ -34,7 +34,7 @@ class NotificationService
     parsed_response = parse_response(response)
     parsed_response['error'].nil? && parsed_response['name']
   rescue StandardError => e
-    Rails.looger.info "Notification sending failed for token #{token} of user #{@user.id}, exception: #{e}"
+    Rails.logger.info "Notification sending failed for token #{token} of user #{@user.id}, exception: #{e}"
     false
   end
 
